@@ -7,7 +7,7 @@ const initApp = () => {
   const promise = new Promise((resolve, reject) => {
     const db = mongoose.connection;
     db.once("open", () => console.log("Connected to Database"));
-    db.on("error", (error: any) => console.error(error));
+    db.on("error", (error: any) => console.error(`Failed to establish Database connection: ${error}`));
     mongoose.connect(process.env.DB_URL as string).then(() => {
       const app = express();
 
@@ -15,7 +15,7 @@ const initApp = () => {
       app.use(bodyParser.urlencoded({ extended: true }));
 
       const userRoute = require("./routes/userRoute");
-      app.use("/user", userRoute);
+      app.use("/users", userRoute);
       resolve(app);
     });
   });

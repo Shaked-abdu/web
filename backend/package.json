@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc && jest --detectOpenHandles --forceExit",
-    "start": "tsc && node dist/app.js",
+    "start": "tsc && node dist/server.js",
     "lint": "eslint . --ext .ts",
-    "devstart": "nodemon ./src/app.ts"
+    "devstart": "nodemon ./src/server.ts"
   },
   "author": "",
   "license": "ISC",
