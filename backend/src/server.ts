@@ -1,9 +1,8 @@
-import { Express } from "express";
 import initApp from "./app";
 
-initApp().then((app: unknown) => {
+initApp().then((app) => {
   const port = process.env.PORT;
-  (app as Express).listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+  app.listen(port, () => {
+    console.log(`App listening at port: ${port}`);
   });
 });

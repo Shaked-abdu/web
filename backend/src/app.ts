@@ -1,26 +1,33 @@
 import "dotenv/config";
-import express from "express";
+import express, { Express } from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import userRouter from "./routes/userRoute";
+import userRouter from "./routes/userRoutes";
+
+const app = express();
 
 const initApp = () => {
-  const promise = new Promise((resolve, reject) => {
-    const db = mongoose.connection;
-    db.once("open", () => console.log("Connected to Database"));
-    db.on("error", (error: any) =>
-      console.error(`Failed to establish Database connection: ${error}`)
-    );
-    mongoose.connect(process.env.DB_URL as string).then(() => {
-      const app = express();
-
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({ extended: true }));
-      app.use("/users", userRouter);
-      resolve(app);
-    });
+  const db = mongoose.connection;
+  db.on("error", (error) =>
+    console.error(`Failed to establish Database connection: ${error}`)
+  );
+  db.once("open", () => {
+    console.log("Connected to Database");
   });
-  return promise;
+
+  return new Promise<Express>((resolve, reject) => {
+    mongoose
+      .connect(process.env.DB_URL)
+      .then(() => {
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use("/users", userRouter);
+        resolve(app);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };
 
-export default initApp;
+export = initApp;
