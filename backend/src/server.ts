@@ -1,5 +1,5 @@
-import { Express } from 'express';
-import initApp from './app'
+import { Express } from "express";
+import initApp from "./app";
 
 initApp().then((app: unknown) => {
   const port = process.env.PORT;
