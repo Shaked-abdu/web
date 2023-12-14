@@ -7,6 +7,16 @@ class BaseConstroller<ModelType> {
   constructor(model: Model<ModelType>) {
     this.model = model;
   }
+
+  async getAll(req: Request, res: Response) {
+    try {
+      const result = await this.model.find();
+      res.status(StatusCodes.OK).json(result);
+    } catch (err) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+    }
+  }
+  
   async create(req: Request, res: Response) {
     const data = req.body;
     try {
