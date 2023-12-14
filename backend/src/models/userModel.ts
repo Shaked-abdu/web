@@ -1,41 +1,18 @@
-import { Schema, model, Document, Types } from "mongoose";
+import mongoose from "mongoose";
 
-const userSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(),
-  },
+export interface IUser {
+  name: string;
+  _id: string;
+}
+
+const userSchema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: true,
   },
-  reports: [
-    {
-      report_number: {
-        type: Number,
-        required: true,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-      content: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  _id: {
+    type: String,
+  },
 });
 
-export interface reports {
-  report_number: number;
-  title: string;
-  content: string;
-}
-
-export interface UserDocument extends Document {
-  name: string;
-  reports: Array<reports>;
-}
-
-export const User = model<UserDocument>("User", userSchema);
+export default mongoose.model<IUser>("Users", userSchema);
