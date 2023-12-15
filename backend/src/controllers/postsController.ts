@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import postModel, { IPost } from "../models/postModel";
 import createController from "./baseController";
 import DoctorModel from "../models/doctorModel";
+import commentModel from "../models/commentModel";
 
 const postController = createController<IPost>(postModel);
 
@@ -22,8 +23,8 @@ postController.create = async (req, res) => {
   }
 
   try {
-    const result = await postModel.create(data);
-    res.status(StatusCodes.CREATED).json(result);
+    const object = await postModel.create(data);
+    res.status(StatusCodes.CREATED).json(object);
   } catch (err) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
   }
@@ -52,6 +53,27 @@ postController.updateById = async (req, res) => {
     res.send(object);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+postController.getComments = async (req, res) => {
+  try {
+    const post = await postModel.findById(req.params.id);
+    if (!post) {
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Invalid postId. Post not found." });
+      return;
+    }
+  } catch (err) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+    return;
+  }
+  try {
+    const comments = await commentModel.find({ postId: req.params.id });
+    res.send(comments);
+  } catch (err) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
   }
 };
 

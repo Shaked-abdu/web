@@ -3,9 +3,11 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
 class BaseConstroller<ModelType> {
+  
   model: Model<ModelType>;
   getPosts: (req: Request, res: Response) => Promise<void>;
-  
+  getComments: (req: Request, res: Response) => Promise<void>;
+
   constructor(model: Model<ModelType>) {
     this.model = model;
   }

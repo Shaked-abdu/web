@@ -22,7 +22,7 @@ doctorController.getPosts = async (req, res) => {
     const doctor = await DoctorModel.findById(req.params.id);
     if (!doctor) {
       res
-        .status(StatusCodes.BAD_REQUEST)
+        .status(StatusCodes.NOT_FOUND)
         .json({ message: "Invalid doctorId. Doctor not found." });
       return;
     }
