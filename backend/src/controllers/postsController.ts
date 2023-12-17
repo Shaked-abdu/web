@@ -52,7 +52,7 @@ postController.updateById = async (req, res) => {
     }
     res.send(object);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err.message });
   }
 };
 
@@ -61,7 +61,7 @@ postController.getComments = async (req, res) => {
     const post = await postModel.findById(req.params.id);
     if (!post) {
       res
-        .status(StatusCodes.NOT_FOUND)
+        .status(StatusCodes.BAD_REQUEST)
         .json({ message: "Invalid postId. Post not found." });
       return;
     }

@@ -3,10 +3,10 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
 class BaseConstroller<ModelType> {
-  
   model: Model<ModelType>;
   getPosts: (req: Request, res: Response) => Promise<void>;
   getComments: (req: Request, res: Response) => Promise<void>;
+  create: (req: Request, res: Response) => Promise<void>;
 
   constructor(model: Model<ModelType>) {
     this.model = model;
@@ -29,17 +29,9 @@ class BaseConstroller<ModelType> {
       }
       res.send(object);
     } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  }
-
-  async create(req: Request, res: Response) {
-    const data = req.body;
-    try {
-      const result = await this.model.create(data);
-      res.status(StatusCodes.CREATED).json(result);
-    } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: err.message });
     }
   }
 
@@ -51,7 +43,9 @@ class BaseConstroller<ModelType> {
       }
       res.send(object);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: err.message });
     }
   }
 
@@ -67,7 +61,9 @@ class BaseConstroller<ModelType> {
       }
       res.send(object);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: err.message });
     }
   }
 }
