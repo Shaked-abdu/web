@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && jest --coverage --runInBand", 
+    "test": "tsc && jest --coverage --runInBand",
     "start": "npm run test && tsc && node dist/server.js",
     "lint": "eslint . --ext .ts",
     "dev": "npm run test && nodemon ./src/server.ts"
@@ -12,9 +12,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3"
   },
   "devDependencies": {

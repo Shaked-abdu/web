@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import doctorRouter from "./routes/doctorRoutes";
 import postRouter from "./routes/postRutes";
-import commentRouter from "./routes/commentRutes";
+import commentRouter from "./routes/commentRoutes";
+import authRouter from "./routes/authRoutes";
 
 const app = express();
 
@@ -26,6 +27,7 @@ const initApp = () => {
         app.use("/doctors", doctorRouter);
         app.use("/posts", postRouter);
         app.use("/comments", commentRouter)
+        app.use("/auth", authRouter)
         resolve(app);
       })
       .catch((err) => {
