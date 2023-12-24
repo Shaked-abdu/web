@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Hospital Help</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000e2d;
+    }
+
+    .profile-container {
+      background-color: #4b4b91;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 100px;
+      width: 360px;
+      height: 360px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(75, 207, 240, 0.5); 
+      text-align: unset;
+    }
+
+    .profile-container h1 {
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: #ffffff;
+      font-family: Arial;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+
+    .form-group input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-group button {
+      padding: 10px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .form-group button:hover {
+      background-color: #45a049;
+    }
+    
+    .back-button {
+    padding: 10px;
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .back-button:hover {
+    background-color: #3c8742;
+  }
+
+  .edit-button {
+    padding: 5px;
+    background-color: #000e2d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .edit-button:hover {
+    background-color: #0d53e9;
+  }
+  
+  </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <h1>My Profile</h1>
+        <form class="profile-form">
+          <table>
+            <tr>
+              <td><strong>First Name:</strong></td>
+              <td><input type="text" name="firstName" /></td>
+              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+            </tr>
+            <tr>
+              <td><strong>Last Name:</strong></td>
+              <td><input type="text" name="lastName" /></td>
+              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+            </tr>
+            <tr>
+              <td><strong>Age:</strong></td>
+              <td><input type="number" name="age" /></td>
+              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+            </tr>
+            <tr>
+              <td><strong>Profession:</strong></td>
+              <td><input type="text" name="profession" /></td>
+              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+            </tr>
+            <tr>
+              <td><strong>Phone Number:</strong></td>
+              <td><input type="tel" name="phoneNumber" /></td>
+              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+            </tr>
+            <tr>
+              <td><strong>ID:</strong></td>
+              <td><input type="text" name="id" /></td>
+              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+            </tr>
+          </table>
+          <button class="back-button" onclick="goBack()">Back</button>
+        </form>
+      </div>
+      
+      <script>
+        function goBack() {
+          window.location.href = 'file:///C:/workspace/web/web/frontend/web/public/index.html';
+        }
+      
+        function editRow(button) {
+
+          var row = button.parentNode.parentNode;
+          var cells = row.getElementsByTagName("td");
+      
+          console.log("Editing row:", cells[0].innerText, cells[1].innerText);
+        }
+      </script>
+
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+
+</body>
+</html>
