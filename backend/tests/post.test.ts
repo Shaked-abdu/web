@@ -30,15 +30,38 @@ afterAll(async () => {
 describe("post tests", () => {
   const post: IPost = {
     title: "title1",
-    content: "message1",
-    owner: "1234567890",
+    content: "message1"
   };
+
+  let postId: string;
 
   test("Create post", async () => {
     const res = await request(app)
       .post("/posts")
       .set("Authorization", `Bearer ${accessToken}`)
       .send(post);
+    postId = res.body._id;
     expect(res.status).toBe(StatusCodes.CREATED);
-  })
+  });
+  test("Get post", async () => {
+    const res = await request(app)
+      .get("/posts")
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.length).toBe(1);
+  });
+  test("Get post by id", async () => {
+    const res = await request(app)
+      .get(`/posts/${postId}`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.title).toBe(post.title);
+    expect(res.body.content).toBe(post.content);
+  });
+  test("Delete by id", async () => {
+    const res = await request(app)
+      .delete(`/posts/${postId}`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.OK);
+  });
 });

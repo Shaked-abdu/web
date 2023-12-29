@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export interface IPost {
   title: string;
   content: string;
-  owner: string;
+  owner?: string;
 }
 
 const postSchema = new mongoose.Schema<IPost>({

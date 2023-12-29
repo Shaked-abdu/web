@@ -29,8 +29,16 @@ class CommentController extends BaseConstroller<IComment> {
 
   async deleteById(req: AuthRequest, res: Response) {
     const _id = req.user._id;
-    if (_id != req.body.owner) {
-      res.status(StatusCodes.UNAUTHORIZED).send();
+    try {
+      const comment = await commentModel.findById(req.params.id);
+      if (comment == null) {
+        res.status(StatusCodes.BAD_REQUEST).send("Comment not found");
+      }
+      if (comment.owner != _id) {
+        res.status(StatusCodes.UNAUTHORIZED).send();
+      }
+    } catch (err) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
     super.deleteById(req, res);
   }

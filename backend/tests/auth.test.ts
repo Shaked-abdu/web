@@ -79,3 +79,23 @@ describe("Login", () => {
     expect(response.status).toBe(StatusCodes.BAD_REQUEST);
   });
 });
+
+describe("Refresh", () => {
+  test("Refresh", async () => {
+    const response = await request(app)
+      .get("/auth/refresh")
+      .set("Authorization", `Bearer ${refreshToken}`);
+    expect(response.status).toBe(StatusCodes.OK);
+    accessToken = response.body.accessToken;
+    expect(accessToken).not.toBeNull();
+  });
+});
+
+describe("Logout", () => {
+  test("Logout", async () => {
+    const response = await request(app)
+      .get("/auth/logout")
+      .set("Authorization", `Bearer ${refreshToken}`);
+    expect(response.status).toBe(StatusCodes.OK);
+  });
+});
