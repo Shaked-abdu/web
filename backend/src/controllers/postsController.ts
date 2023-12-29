@@ -22,7 +22,7 @@ class PostController extends BaseConstroller<IPost> {
     try {
       const post = await postModel.findById(req.params.id);
       if (post == null) {
-        res.status(StatusCodes.BAD_REQUEST).send("Post not found");
+        res.status(StatusCodes.NOT_FOUND).send("Post not found");
       }
       if (post.owner != _id) {
         res.status(StatusCodes.UNAUTHORIZED).send();

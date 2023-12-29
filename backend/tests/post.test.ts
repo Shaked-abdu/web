@@ -30,7 +30,7 @@ afterAll(async () => {
 describe("post tests", () => {
   const post: IPost = {
     title: "title1",
-    content: "message1"
+    content: "message1",
   };
 
   let postId: string;
@@ -58,10 +58,38 @@ describe("post tests", () => {
     expect(res.body.title).toBe(post.title);
     expect(res.body.content).toBe(post.content);
   });
+  test("Delete post of another user", async () => {
+    const user2: IUser = {
+      email: "test@test",
+      password: "1234567890",
+    };
+    user2._id = (
+      await request(app).post("/auth/register").send(user2)
+    ).body._id;
+    const accessToken2 = (await request(app).post("/auth/login").send(user2))
+      .body.accessToken;
+    const res = await request(app)
+      .delete(`/posts/${postId}`)
+      .set("Authorization", `Bearer ${accessToken2}`);
+    expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
+  });
   test("Delete by id", async () => {
     const res = await request(app)
       .delete(`/posts/${postId}`)
       .set("Authorization", `Bearer ${accessToken}`);
     expect(res.status).toBe(StatusCodes.OK);
+  });
+  test("Delete non existing post", async () => {
+    const res = await request(app)
+      .delete(`/posts/${postId}`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.NOT_FOUND);
+  });
+  test("Get posts by user id", async () => {
+    const res = await request(app)
+      .get(`/posts/user/${user._id}`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.length).toBe(0);
   });
 });

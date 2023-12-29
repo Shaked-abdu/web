@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 export interface IComment {
   content: string;
   postId: string;
-  owner: string;
+  owner?: string;
+  _id?: string;
 }
 
 const commentSchema = new mongoose.Schema<IComment>({

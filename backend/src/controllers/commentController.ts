@@ -32,7 +32,7 @@ class CommentController extends BaseConstroller<IComment> {
     try {
       const comment = await commentModel.findById(req.params.id);
       if (comment == null) {
-        res.status(StatusCodes.BAD_REQUEST).send("Comment not found");
+        res.status(StatusCodes.NOT_FOUND).send("Comment not found");
       }
       if (comment.owner != _id) {
         res.status(StatusCodes.UNAUTHORIZED).send();

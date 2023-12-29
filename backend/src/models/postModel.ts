@@ -4,6 +4,7 @@ export interface IPost {
   title: string;
   content: string;
   owner?: string;
+  _id?: string;
 }
 
 const postSchema = new mongoose.Schema<IPost>({
