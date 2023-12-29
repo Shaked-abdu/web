@@ -2,14 +2,22 @@ import { Model } from "mongoose";
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
-class BaseConstroller<ModelType> {
+export class BaseConstroller<ModelType> {
   model: Model<ModelType>;
   getPosts: (req: Request, res: Response) => Promise<void>;
   getComments: (req: Request, res: Response) => Promise<void>;
-  create: (req: Request, res: Response) => Promise<void>;
 
   constructor(model: Model<ModelType>) {
     this.model = model;
+  }
+
+  async post(req: Request, res: Response) {
+    try {
+      const object = await this.model.create(req.body);
+      res.status(StatusCodes.CREATED).json(object);
+    } catch (err) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+    }
   }
 
   async getAll(req: Request, res: Response) {

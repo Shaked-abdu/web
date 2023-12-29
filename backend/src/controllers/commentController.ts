@@ -6,7 +6,7 @@ import createController from "./baseController";
 
 const commentController = createController<IComment>(commentModel);
 
-commentController.create = async (req, res) => {
+commentController.post = async (req, res) => {
   const data = req.body;
   try {
     const doctor = await doctorModel.findById(data.doctorId);

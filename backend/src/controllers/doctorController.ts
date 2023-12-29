@@ -5,7 +5,7 @@ import postModel from "../models/postModel";
 
 const doctorController = createController<IDoctor>(DoctorModel);
 
-doctorController.create = async (req, res) => {
+doctorController.post = async (req, res) => {
   const data = req.body;
   data["_id"] = data.name;
 
