@@ -89,24 +89,32 @@ const logout = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
-    res.status(StatusCodes.UNAUTHORIZED);
+    res.status(StatusCodes.UNAUTHORIZED).send();
   }
+  console.log(`token: ${token}`);
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userInfo) => {
     if (err) {
       res.status(StatusCodes.FORBIDDEN);
     }
     const userId = userInfo._id;
+    console.log(`userInfo: ${userInfo}`);
     try {
       const user = await userModel.findById(userId);
       if (user == null) {
         res.status(StatusCodes.FORBIDDEN);
       }
+      console.log(`user: ${user}`);
       if (!user.tokens.includes(token)) {
+        console.log(`Token ${token} not found`);
+        console.log(`user.tokens: ${user.tokens}`);
         user.tokens = [];
         await user.save();
+        console.log(`After save`);
         return res.status(StatusCodes.FORBIDDEN);
       }
+      console.log(`After token check`);
       user.tokens.splice(user.tokens.indexOf(token), 1);
+      console.log(`After splice`);
       await user.save();
       res.status(StatusCodes.OK).send();
     } catch (error) {

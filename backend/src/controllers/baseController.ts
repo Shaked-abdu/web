@@ -16,7 +16,7 @@ export class BaseConstroller<ModelType> {
       const object = await this.model.create(req.body);
       res.status(StatusCodes.CREATED).json(object);
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -51,9 +51,7 @@ export class BaseConstroller<ModelType> {
       }
       res.send(object);
     } catch (err) {
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: err.message });
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 

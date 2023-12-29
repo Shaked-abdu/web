@@ -2,7 +2,6 @@ import "dotenv/config";
 import express, { Express } from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import doctorRouter from "./routes/doctorRoutes";
 import postRouter from "./routes/postRutes";
 import commentRouter from "./routes/commentRoutes";
 import authRouter from "./routes/authRoutes";
@@ -24,7 +23,6 @@ const initApp = () => {
       .then(() => {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
-        app.use("/doctors", doctorRouter);
         app.use("/posts", postRouter);
         app.use("/comments", commentRouter)
         app.use("/auth", authRouter)
