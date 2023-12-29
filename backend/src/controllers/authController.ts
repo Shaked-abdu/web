@@ -3,6 +3,40 @@ import userModel from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const register = async (req, res) => {
+  console.log("register");
+
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (email == null || password == null) {
+    res.status(StatusCodes.BAD_REQUEST).send("Email or password is empty");
+    return;
+  }
+
+  try {
+    const user = await userModel.findOne({ email: email });
+    if (user != null) {
+      res.status(StatusCodes.BAD_REQUEST).send("Email already exists");
+      return;
+    }
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+  try {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+    const user = new userModel({
+      email: email,
+      password: hash,
+    });
+    const newUser = await user.save();
+    res.status(StatusCodes.CREATED).json(newUser);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    return;
+  }
+};
 const login = async (req, res) => {
   console.log("login");
   const email = req.body.email;
@@ -50,42 +84,6 @@ const login = async (req, res) => {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
-
-const register = async (req, res) => {
-  console.log("register");
-
-  const email = req.body.email;
-  const password = req.body.password;
-
-  if (email == null || password == null) {
-    res.status(StatusCodes.BAD_REQUEST).send("Email or password is empty");
-    return;
-  }
-
-  try {
-    const user = await userModel.findOne({ email: email });
-    if (user != null) {
-      res.status(StatusCodes.BAD_REQUEST).send("Email already exists");
-      return;
-    }
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-  }
-  try {
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
-    const user = new userModel({
-      email: email,
-      password: hash,
-    });
-    const newUser = await user.save();
-    res.status(StatusCodes.CREATED).json(newUser);
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    return;
-  }
-};
-
 const logout = async (req, res) => {
   console.log("logout");
   const authHeader = req.headers["authorization"];
@@ -95,7 +93,7 @@ const logout = async (req, res) => {
   }
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userInfo) => {
     if (err) {
-      res.status(StatusCodes.UNAUTHORIZED);
+      res.status(StatusCodes.FORBIDDEN);
     }
     const userId = userInfo._id;
     try {
