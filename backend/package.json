@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && jest --coverage --runInBand",
+    "test": "tsc && jest --coverage --runInBand --detectOpenHandles --forceExit",
     "start": "tsc && node dist/src/server.js",
     "lint": "eslint . --ext .ts",
     "dev": "nodemon ./src/server.ts"
