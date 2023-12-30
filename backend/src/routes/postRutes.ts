@@ -13,6 +13,8 @@ const postRouter = Router();
  *     responses:
  *       200:
  *         description: Successful operation
+ *       401:
+ *        description: Unauthorized
  *       500:
  *         description: Server error
  */
@@ -36,10 +38,16 @@ postRouter.get("/", authMiddleware, postController.getAll.bind(postController));
  *         description: Successful operation
  *       404:
  *        description: Post not found
+ *       401:
+ *        description: Unauthorized
  *       500:
  *        description: Server error
  */
-postRouter.get("/:id", authMiddleware, postController.getById.bind(postController));
+postRouter.get(
+  "/:id",
+  authMiddleware,
+  postController.getById.bind(postController)
+);
 /**
  * @swagger
  * /comments/user/{id}:
@@ -59,8 +67,16 @@ postRouter.get("/:id", authMiddleware, postController.getById.bind(postControlle
  *         description: Successful operation
  *       500:
  *         description: Server error
+ *       404:
+ *         description: User not found
+ *       401:
+ *         description: Unauthorized
  */
-postRouter.get("/user/:id", authMiddleware, postController.getByUserId.bind(postController));
+postRouter.get(
+  "/user/:id",
+  authMiddleware,
+  postController.getByUserId.bind(postController)
+);
 
 /**
  * @swagger
@@ -80,6 +96,8 @@ postRouter.get("/user/:id", authMiddleware, postController.getByUserId.bind(post
  *         description: Created
  *       500:
  *         description: Server error
+ *       401:
+ *        description: Unauthorized
  */
 postRouter.post("/", authMiddleware, postController.post.bind(postController));
 /**
@@ -99,7 +117,17 @@ postRouter.post("/", authMiddleware, postController.post.bind(postController));
  *     responses:
  *       200:
  *         description: Deleted
+ *       404:
+ *         description: Post not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
  */
-postRouter.delete("/:id", authMiddleware, postController.deleteById.bind(postController));
+postRouter.delete(
+  "/:id",
+  authMiddleware,
+  postController.deleteById.bind(postController)
+);
 
 export = postRouter;

@@ -21,6 +21,12 @@ const commentRouter = Router();
  *     responses:
  *       200:
  *         description: Successful operation
+ *       404:
+ *         description: Post not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
  */
 commentRouter.get(
   "/post/:id",
@@ -43,6 +49,10 @@ commentRouter.get(
  *     responses:
  *       201:
  *         description: Created
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
  */
 commentRouter.post(
   "/",
@@ -66,6 +76,12 @@ commentRouter.post(
  *     responses:
  *       200:
  *         description: Deleted
+ *       404:
+ *         description: Comment not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *        description: Server error
  */
 commentRouter.delete(
   "/:id",
