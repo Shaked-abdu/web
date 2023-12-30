@@ -16,7 +16,7 @@ export class BaseConstroller<ModelType> {
       const object = await this.model.create(req.body);
       res.status(StatusCodes.CREATED).json(object);
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
   }
 
@@ -25,7 +25,7 @@ export class BaseConstroller<ModelType> {
       const result = await this.model.find();
       res.status(StatusCodes.OK).json(result);
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
   }
 
@@ -33,13 +33,12 @@ export class BaseConstroller<ModelType> {
     try {
       const object = await this.model.findById(req.params.id);
       if (!object) {
-        res.status(StatusCodes.NOT_FOUND).json({ message: "Not found" });
+        res.status(StatusCodes.NOT_FOUND).send();
       }
       res.send(object);
     } catch (err) {
       res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: err.message });
+        .status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
   }
 
@@ -47,11 +46,12 @@ export class BaseConstroller<ModelType> {
     try {
       const object = await this.model.findByIdAndDelete(req.params.id);
       if (!object) {
-        res.status(StatusCodes.NOT_FOUND).json({ message: "Not found" });
+        res.status(StatusCodes.NOT_FOUND).send();
       }
       res.send(object);
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
   }
 

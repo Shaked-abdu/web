@@ -33,14 +33,15 @@ class CommentController extends BaseConstroller<IComment> {
       const comment = await commentModel.findById(req.params.id);
       if (comment == null) {
         res.status(StatusCodes.NOT_FOUND).send("Comment not found");
-      }
-      if (comment.owner != _id) {
+      } else if (comment.owner != _id) {
         res.status(StatusCodes.UNAUTHORIZED).send();
+      } else {
+        super.deleteById(req, res);
       }
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
-    super.deleteById(req, res);
   }
 
   async getByPostId(req: AuthRequest, res: Response) {
