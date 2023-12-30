@@ -2,14 +2,22 @@ import { Model } from "mongoose";
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
-class BaseConstroller<ModelType> {
+export class BaseConstroller<ModelType> {
   model: Model<ModelType>;
   getPosts: (req: Request, res: Response) => Promise<void>;
   getComments: (req: Request, res: Response) => Promise<void>;
-  create: (req: Request, res: Response) => Promise<void>;
 
   constructor(model: Model<ModelType>) {
     this.model = model;
+  }
+
+  async post(req: Request, res: Response) {
+    try {
+      const object = await this.model.create(req.body);
+      res.status(StatusCodes.CREATED).json(object);
+    } catch (err) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    }
   }
 
   async getAll(req: Request, res: Response) {
@@ -43,29 +51,27 @@ class BaseConstroller<ModelType> {
       }
       res.send(object);
     } catch (err) {
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: err.message });
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async updateById(req: Request, res: Response) {
-    try {
-      const object = await this.model.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-      );
-      if (!object) {
-        res.status(StatusCodes.NOT_FOUND).json({ message: "Not found" });
-      }
-      res.send(object);
-    } catch (err) {
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: err.message });
-    }
-  }
+  // async updateById(req: Request, res: Response) {
+  //   try {
+  //     const object = await this.model.findByIdAndUpdate(
+  //       req.params.id,
+  //       req.body,
+  //       { new: true }
+  //     );
+  //     if (!object) {
+  //       res.status(StatusCodes.NOT_FOUND).json({ message: "Not found" });
+  //     }
+  //     res.send(object);
+  //   } catch (err) {
+  //     res
+  //       .status(StatusCodes.INTERNAL_SERVER_ERROR)
+  //       .json({ message: err.message });
+  //   }
+  // }
 }
 
 const createController = <ModelType>(model: Model<ModelType>) => {

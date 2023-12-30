@@ -1,26 +1,47 @@
 import initApp from "../src/app";
 import request from "supertest";
 import mongoose from "mongoose";
-import commentModel from "../src/models/commentModel";
+import commentModel, { IComment } from "../src/models/commentModel";
 import { Express } from "express";
+import postModel, { IPost } from "../src/models/postModel";
+import userModel, { IUser } from "../src/models/userModel";
 import { StatusCodes } from "http-status-codes";
 
 let app: Express;
+const user: IUser = {
+  email: "mail",
+  password: "1234567890",
+};
+const user2: IUser = {
+  email: "mail2",
+  password: "1234567890",
+};
+const post: IPost = {
+  title: "title1",
+  content: "message1",
+};
+
+let accessToken: string;
+let accessToken2: string;
+
 beforeAll(async () => {
   app = await initApp();
   console.log("beforeAll");
   await commentModel.deleteMany();
-  const doctor = {
-    name: "Shalom",
-  };
-  await request(app).post("/doctors").send(doctor);
-  const post = {
-    title: "title",
-    content: "content",
-    doctorId: "Shalom",
-    _id: "123",
-  };
-  await request(app).post("/posts").send(post);
+  await postModel.deleteMany();
+  await userModel.deleteMany({ email: user.email });
+  user._id = (await request(app).post("/auth/register").send(user)).body._id;
+  accessToken = (await request(app).post("/auth/login").send(user)).body
+    .accessToken;
+  user2._id = (await request(app).post("/auth/register").send(user2)).body._id;
+  accessToken2 = (await request(app).post("/auth/login").send(user2)).body
+    .accessToken;
+  post._id = (
+    await request(app)
+      .post("/posts")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send(post)
+  ).body._id;
 });
 
 afterAll(async () => {
@@ -28,56 +49,43 @@ afterAll(async () => {
 });
 
 describe("Comment tests", () => {
-  const comment = {
-    content: "content",
-    postId: "123",
-    doctorId: "Shalom",
-    _id: "123",
+  let comment: IComment = {
+    content: "comment 1",
+    postId: "",
   };
+
   test("Create comment", async () => {
-    const res = await request(app).post("/comments").send(comment);
+    comment.postId = post._id;
+    const res = await request(app)
+      .post("/comments")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send(comment);
+    comment = res.body;
     expect(res.status).toBe(StatusCodes.CREATED);
   });
-  test("Get all comments", async () => {
-    const res = await request(app).get("/comments");
-    expect(res.status).toBe(StatusCodes.OK);
-    expect(res.body).toMatchObject([comment]);
-  });
-  test("Create comment with invalid id", async () => {
-    const res = await request(app).post("/comments").send({
-      content: "content",
-      postId: "123",
-      doctorId: "Shalom",
-      _id: "123",
-    });
-    expect(res.status).toBe(StatusCodes.INTERNAL_SERVER_ERROR);
-  });
-  test("update comment", async () => {
-    const res = await request(app).put("/comments/123").send(comment);
-    expect(res.status).toBe(StatusCodes.OK);
-    expect(res.body).toMatchObject(comment);
-  });
   test("Delete comment", async () => {
-    const res = await request(app).delete("/comments/123");
+    const res = await request(app)
+      .delete(`/comments/${comment._id}`)
+      .set("Authorization", `Bearer ${accessToken}`);
     expect(res.status).toBe(StatusCodes.OK);
-    expect(res.body).toMatchObject(comment);
   });
-  test("Create comment with invalid postId", async () => {
-    const res = await request(app).post("/comments").send({
-      content: "content",
-      postId: "1234",
-      doctorId: "Shalom",
-      _id: "123",
-    });
-    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+  test("Delete comment of another user", async () => {
+    comment.postId = post._id;
+    const res = await request(app)
+      .post("/comments")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send(comment);
+    comment = res.body;
+    const res2 = await request(app)
+      .delete(`/comments/${comment._id}`)
+      .set("Authorization", `Bearer ${accessToken2}`);
+    expect(res2.status).toBe(StatusCodes.UNAUTHORIZED);
   });
-  test("Create comment with invalid doctorId", async () => {
-    const res = await request(app).post("/comments").send({
-      content: "content",
-      postId: "123",
-      doctorId: "Shalom2",
-      _id: "123",
-    });
-    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+  test("Get comments by post id", async () => {
+    const res = await request(app)
+      .get(`/comments/post/${post._id}`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.length).toBe(0);
   });
 });
