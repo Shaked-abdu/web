@@ -160,4 +160,4 @@ const refresh = async (req, res) => {
   });
 };
 
-export default { login, register, logout, refresh };
+export default {  login, register, logout, refresh };

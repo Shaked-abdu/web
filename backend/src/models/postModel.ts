@@ -1,5 +1,25 @@
 import mongoose from "mongoose";
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   Post:
+ *    type: object
+ *    required:
+ *     - title
+ *     - content
+ *    properties:
+ *     title:
+ *      type: string
+ *      description: Post title
+ *     content:
+ *      type: string
+ *      description: Post content
+ *    example:
+ *     title: 'title1'
+ *     content: 'message1'
+ */
 export interface IPost {
   title: string;
   content: string;
