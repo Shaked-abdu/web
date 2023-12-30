@@ -9,21 +9,44 @@ import userModel, { IUser } from "../src/models/userModel";
 let app: Express;
 const user: IUser = {
   email: "test@doctor.post.com",
-  password: "1234567890",
+  password: "1234567890123",
+  firstName: "firstName",
+  lastName: "lastName",
+  age: 20,
+  profession: "profession",
+  phoneNumber: "phoneNumber",
+  id: "3164451351",
+};
+const user2: IUser = {
+  email: "test@test123",
+  password: "123456789fgfg0",
+  firstName: "firstName",
+  lastName: "lastName",
+  age: 20,
+  profession: "profession",
+  phoneNumber: "phoneNumber",
+  id: "3164451352",
 };
 let accessToken: string;
+let accessToken2: string;
 
 beforeAll(async () => {
   app = await initApp();
   console.log("beforeAll");
   await postModel.deleteMany();
   await userModel.deleteMany({ email: user.email });
+  await userModel.deleteMany({ email: user2.email });
   user._id = (await request(app).post("/auth/register").send(user)).body._id;
   accessToken = (await request(app).post("/auth/login").send(user)).body
+    .accessToken;
+  user2._id = (await request(app).post("/auth/register").send(user2)).body._id;
+  accessToken2 = (await request(app).post("/auth/login").send(user2)).body
     .accessToken;
 });
 
 afterAll(async () => {
+  await userModel.deleteMany({ email: user.email });
+  await userModel.deleteMany({ email: user2.email });
   await mongoose.connection.close();
 });
 
@@ -59,15 +82,6 @@ describe("post tests", () => {
     expect(res.body.content).toBe(post.content);
   });
   test("Delete post of another user", async () => {
-    const user2: IUser = {
-      email: "test@test",
-      password: "1234567890",
-    };
-    user2._id = (
-      await request(app).post("/auth/register").send(user2)
-    ).body._id;
-    const accessToken2 = (await request(app).post("/auth/login").send(user2))
-      .body.accessToken;
     const res = await request(app)
       .delete(`/posts/${postId}`)
       .set("Authorization", `Bearer ${accessToken2}`);
@@ -91,5 +105,11 @@ describe("post tests", () => {
       .set("Authorization", `Bearer ${accessToken}`);
     expect(res.status).toBe(StatusCodes.OK);
     expect(res.body.length).toBe(0);
+  });
+  test("Get by id non existing post", async () => {
+    const res = await request(app)
+      .get(`/posts/${postId.split("").reverse().join("")}`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(res.status).toBe(StatusCodes.NOT_FOUND);
   });
 });

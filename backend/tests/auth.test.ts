@@ -3,12 +3,18 @@ import { Express } from "express";
 import mongoose from "mongoose";
 import initApp from "../src/app";
 import { StatusCodes } from "http-status-codes";
-import userModel from "../src/models/userModel";
+import userModel, { IUser } from "../src/models/userModel";
 
 let app: Express;
-const user = {
-  email: "testUser@test.com",
+const user: IUser = {
+  email: "mail",
   password: "1234567890",
+  firstName: "firstName",
+  lastName: "lastName",
+  age: 20,
+  profession: "profession",
+  phoneNumber: "phoneNumber",
+  id: "3164451351",
 };
 
 let accessToken: string;
@@ -25,12 +31,11 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("Register", () => {
+describe("Authentication", () => {
   test("Access without auth", async () => {
-    const response = await request(app).post("/posts");
+    const response = await request(app).get("/posts");
     expect(response.status).not.toBe(StatusCodes.OK);
   });
-
   test("Register", async () => {
     const response = await request(app).post("/auth/register").send(user);
     expect(response.status).toBe(StatusCodes.CREATED);
@@ -46,9 +51,6 @@ describe("Register", () => {
     });
     expect(response.status).toBe(StatusCodes.BAD_REQUEST);
   });
-});
-
-describe("Login", () => {
   test("Login", async () => {
     const response = await request(app).post("/auth/login").send(user);
     expect(response.status).toBe(StatusCodes.OK);
@@ -78,20 +80,31 @@ describe("Login", () => {
     });
     expect(response.status).toBe(StatusCodes.BAD_REQUEST);
   });
-});
+  test("Authorized access", async () => {
+    const response = await request(app)
+      .get("/posts")
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(response.status).toBe(StatusCodes.OK);
+  });
+  test("Unauthorized access", async () => {
+    const wrongToken = accessToken.slice(0, -1) + "1";
+    const response = await request(app)
+      .get("/posts")
+      .set("Authorization", `Bearer ${wrongToken}`);
+    expect(response.status).not.toBe(StatusCodes.OK);
+  });
 
-describe("Refresh", () => {
   test("Refresh", async () => {
     const response = await request(app)
       .get("/auth/refresh")
       .set("Authorization", `Bearer ${refreshToken}`);
     expect(response.status).toBe(StatusCodes.OK);
     accessToken = response.body.accessToken;
+    refreshToken = response.body.refreshToken;
     expect(accessToken).not.toBeNull();
+    expect(refreshToken).not.toBeNull();
   });
-});
 
-describe("Logout", () => {
   test("Logout", async () => {
     const response = await request(app)
       .get("/auth/logout")

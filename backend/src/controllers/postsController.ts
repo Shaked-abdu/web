@@ -23,15 +23,14 @@ class PostController extends BaseConstroller<IPost> {
       const post = await postModel.findById(req.params.id);
       if (post == null) {
         res.status(StatusCodes.NOT_FOUND).send("Post not found");
-      }
-      if (post.owner != _id) {
+      } else if (post.owner != _id) {
         res.status(StatusCodes.UNAUTHORIZED).send();
+      } else {
+        super.deleteById(req, res);
       }
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
-
-    super.deleteById(req, res);
   }
 
   async getByUserId(req: AuthRequest, res: Response) {
@@ -39,7 +38,7 @@ class PostController extends BaseConstroller<IPost> {
       const result = await this.model.find({ owner: req.params.id });
       res.status(StatusCodes.OK).json(result);
     } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
     }
   }
 }
