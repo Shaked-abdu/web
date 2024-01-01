@@ -25,10 +25,10 @@
       border-radius: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       padding: 100px;
-      width: 360px;
+      width: 300px;
       height: 360px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(75, 207, 240, 0.5); 
+      box-shadow: 0 0 10px rgba(75, 207, 240, 0.5);
       text-align: unset;
     }
 
@@ -42,7 +42,8 @@
       flex-direction: column;
       gap: 10px;
       color: #ffffff;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
+      text-size-adjust: 10px;
     }
 
     .form-group {
@@ -58,7 +59,7 @@
     .form-group input {
       padding: 8px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 10px; 
       font-size: 14px;
     }
 
@@ -75,7 +76,11 @@
     .form-group button:hover {
       background-color: #45a049;
     }
-    
+
+    .profile-form input {
+      border-radius: 10px;
+    }
+
     .back-button {
       padding: 10px;
       background-color: #45a049;
@@ -84,6 +89,7 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
+      width: fit-content;
     }
 
     .back-button:hover {
@@ -123,57 +129,53 @@
   <div class="profile-container">
     <h1>Sign up</h1>
     <form class="profile-form">
-      <table>
+      <table style="width: max-content;">
         <tr>
-          <td><strong>Email:</strong></td>
+          <td><strong>Email </strong></td>
           <td><input type="text" name="email" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>Password:</strong></td>
+          <td><strong>Password </strong></td>
           <td><input type="text" name="password" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>Last Name:</strong></td>
+          <td><strong>Last Name </strong></td>
           <td><input type="text" name="lastName" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>First Name:</strong></td>
+          <td><strong>First Name </strong></td>
           <td><input type="text" name="firstName" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>Age:</strong></td>
+          <td><strong>Age </strong></td>
           <td><input type="number" name="age" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>Profession:</strong></td>
+          <td><strong>Profession </strong></td>
           <td><input type="text" name="profession" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>Phone Number:</strong></td>
+          <td><strong>Phone Number </strong></td>
           <td><input type="tel" name="phoneNumber" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
         </tr>
         <tr>
-          <td><strong>ID:</strong></td>
+          <td><strong>ID </strong></td>
           <td><input type="text" name="id" /></td>
-          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td><button class="save-button" onclick="saveData()">Save</button></td>
         </tr>
       </table>
-      <button class="save-button" onclick="saveData()">Save</button>
-      <button class="back-button" onclick="goBack()">Back</button>
+      <button type="button" onclick="window.location.href='file:///C:/workspace/web/web/frontend/web/public/index.html'" class="back-button">
+        Back To Login
+      </button>
     </form>
   </div>
-  
+
   <script>
-    function goBack() {
-      window.location.href = 'file:///C:/workspace/web/web/frontend/web/public/index.html';
-    }
 
     function editRow(button) {
       var row = button.parentNode.parentNode;
@@ -183,6 +185,8 @@
 
     function saveData() {
       const form = document.querySelector('.profile-form');
+      const email = form.querySelector('input[name="email"]').value;
+      const password = form.querySelector('input[name="password"]').value;
       const firstName = form.querySelector('input[name="firstName"]').value;
       const lastName = form.querySelector('input[name="lastName"]').value;
       const age = form.querySelector('input[name="age"]').value;
@@ -190,7 +194,9 @@
       const phoneNumber = form.querySelector('input[name="phoneNumber"]').value;
       const id = form.querySelector('input[name="id"]').value;
 
-      const profileData = {
+      const userData = {
+        email,
+        password,
         firstName,
         lastName,
         age,
@@ -199,8 +205,8 @@
         id
       };
 
-      localStorage.setItem('profileData', JSON.stringify(profileData));
-      alert('Profile data saved successfully!');
+      localStorage.setItem('userData', JSON.stringify(userData));
+      alert('User data saved successfully!');
     }
   </script>
 
