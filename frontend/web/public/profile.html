@@ -77,92 +77,134 @@
     }
     
     .back-button {
-    padding: 10px;
-    background-color: #45a049;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
+      padding: 10px;
+      background-color: #45a049;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-  .back-button:hover {
-    background-color: #3c8742;
-  }
+    .back-button:hover {
+      background-color: #3c8742;
+    }
 
-  .edit-button {
-    padding: 5px;
-    background-color: #000e2d;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-  }
+    .edit-button {
+      padding: 5px;
+      background-color: #000e2d;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
 
-  .edit-button:hover {
-    background-color: #0d53e9;
-  }
-  
+    .edit-button:hover {
+      background-color: #0d53e9;
+    }
+
+    .save-button {
+      padding: 10px;
+      background-color: #2196F3;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .save-button:hover {
+      background-color: #0d47a1;
+    }
   </style>
 </head>
 <body>
+  <div class="profile-container">
+    <h1>Sign up</h1>
+    <form class="profile-form">
+      <table>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td><input type="text" name="email" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>Password:</strong></td>
+          <td><input type="text" name="password" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>Last Name:</strong></td>
+          <td><input type="text" name="lastName" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>First Name:</strong></td>
+          <td><input type="text" name="firstName" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>Age:</strong></td>
+          <td><input type="number" name="age" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>Profession:</strong></td>
+          <td><input type="text" name="profession" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>Phone Number:</strong></td>
+          <td><input type="tel" name="phoneNumber" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+        <tr>
+          <td><strong>ID:</strong></td>
+          <td><input type="text" name="id" /></td>
+          <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
+        </tr>
+      </table>
+      <button class="save-button" onclick="saveData()">Save</button>
+      <button class="back-button" onclick="goBack()">Back</button>
+    </form>
+  </div>
+  
+  <script>
+    function goBack() {
+      window.location.href = 'file:///C:/workspace/web/web/frontend/web/public/index.html';
+    }
 
-    <div class="profile-container">
-        <h1>My Profile</h1>
-        <form class="profile-form">
-          <table>
-            <tr>
-              <td><strong>First Name:</strong></td>
-              <td><input type="text" name="firstName" /></td>
-              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
-            </tr>
-            <tr>
-              <td><strong>Last Name:</strong></td>
-              <td><input type="text" name="lastName" /></td>
-              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
-            </tr>
-            <tr>
-              <td><strong>Age:</strong></td>
-              <td><input type="number" name="age" /></td>
-              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
-            </tr>
-            <tr>
-              <td><strong>Profession:</strong></td>
-              <td><input type="text" name="profession" /></td>
-              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
-            </tr>
-            <tr>
-              <td><strong>Phone Number:</strong></td>
-              <td><input type="tel" name="phoneNumber" /></td>
-              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
-            </tr>
-            <tr>
-              <td><strong>ID:</strong></td>
-              <td><input type="text" name="id" /></td>
-              <td><button class="edit-button" onclick="editRow(this)">Edit</button></td>
-            </tr>
-          </table>
-          <button class="back-button" onclick="goBack()">Back</button>
-        </form>
-      </div>
-      
-      <script>
-        function goBack() {
-          window.location.href = 'file:///C:/workspace/web/web/frontend/web/public/index.html';
-        }
-      
-        function editRow(button) {
+    function editRow(button) {
+      var row = button.parentNode.parentNode;
+      var cells = row.getElementsByTagName("td");
+      console.log("Editing row:", cells[0].innerText, cells[1].innerText);
+    }
 
-          var row = button.parentNode.parentNode;
-          var cells = row.getElementsByTagName("td");
-      
-          console.log("Editing row:", cells[0].innerText, cells[1].innerText);
-        }
-      </script>
+    function saveData() {
+      const form = document.querySelector('.profile-form');
+      const firstName = form.querySelector('input[name="firstName"]').value;
+      const lastName = form.querySelector('input[name="lastName"]').value;
+      const age = form.querySelector('input[name="age"]').value;
+      const profession = form.querySelector('input[name="profession"]').value;
+      const phoneNumber = form.querySelector('input[name="phoneNumber"]').value;
+      const id = form.querySelector('input[name="id"]').value;
 
-<noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root"></div>
+      const profileData = {
+        firstName,
+        lastName,
+        age,
+        profession,
+        phoneNumber,
+        id
+      };
 
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+      alert('Profile data saved successfully!');
+    }
+  </script>
+
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
 </body>
 </html>
