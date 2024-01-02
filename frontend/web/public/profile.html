@@ -128,7 +128,7 @@
 <body>
   <div class="profile-container">
     <h1>Sign up</h1>
-    <form class="profile-form">
+    <form class="profile-form" id="registrationForm">
       <table style="width: max-content;">
         <tr>
           <td><strong>Email </strong></td>
@@ -166,7 +166,7 @@
         <tr>
           <td></td>
           <td></td>
-          <td><button class="save-button" onclick="saveData()">Save</button></td>
+          <td><button class="save-button" onclick="registerUser(event)">Save</button></td>
         </tr>
       </table>
       <button type="button" onclick="window.location.href='file:///C:/workspace/web/web/frontend/web/public/index.html'" class="back-button">
@@ -176,15 +176,10 @@
   </div>
 
   <script>
+    async function registerUser(event) {
+      event.preventDefault();
 
-    function editRow(button) {
-      var row = button.parentNode.parentNode;
-      var cells = row.getElementsByTagName("td");
-      console.log("Editing row:", cells[0].innerText, cells[1].innerText);
-    }
-
-    function saveData() {
-      const form = document.querySelector('.profile-form');
+      const form = document.getElementById('registrationForm');
       const email = form.querySelector('input[name="email"]').value;
       const password = form.querySelector('input[name="password"]').value;
       const firstName = form.querySelector('input[name="firstName"]').value;
@@ -205,10 +200,32 @@
         id
       };
 
-      localStorage.setItem('userData', JSON.stringify(userData));
-      alert('User data saved successfully!');
+      console.log("Sending request with data:", userData);
+
+      try {
+        const response = await fetch('http://localhost:3000/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        if (response.ok) {
+          alert('User registered successfully!');
+          console.log("Registration successful!");
+        } else {
+          const errorData = await response.json();
+          console.error('User registration failed:', errorData);
+          alert('User registration failed!');
+        }
+      } catch (error) {
+        console.error('Error during user registration:', error);
+        alert('Error during user registration!');
+      }
     }
   </script>
+
 
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>

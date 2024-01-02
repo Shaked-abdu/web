@@ -61,6 +61,7 @@ const register = async (req, res) => {
 };
 const login = async (req, res) => {
   console.log("login");
+  console.log("req.body ", req.body);
   const email = req.body.email;
   const password = req.body.password;
 

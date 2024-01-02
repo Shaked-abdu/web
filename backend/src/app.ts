@@ -7,6 +7,7 @@ import commentRouter from "./routes/commentRoutes";
 import authRouter from "./routes/authRoutes";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import cors from 'cors';
 
 const app = express();
 
@@ -36,10 +37,13 @@ const initApp = () => {
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
   }
 
+  app.use(cors());
+
   return new Promise<Express>((resolve, reject) => {
     mongoose
       .connect(process.env.DB_URL)
       .then(() => {
+        console.log("Connected to Database");
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use("/posts", postRouter);
@@ -48,6 +52,7 @@ const initApp = () => {
         resolve(app);
       })
       .catch((err) => {
+        console.error(`Failed to connect to Database: ${err}`);
         reject(err);
       });
   });
