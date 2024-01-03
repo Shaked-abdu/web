@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from './components/Profile';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div>
       <Profile />
