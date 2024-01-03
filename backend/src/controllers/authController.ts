@@ -109,30 +109,29 @@ const login = async (req, res) => {
 };
 const logout = async (req, res) => {
   console.log("logout");
+  console.log("req.headers ",req.headers);
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
-    res.status(StatusCodes.UNAUTHORIZED).send();
+    return res.status(StatusCodes.UNAUTHORIZED).send();
   }
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userInfo) => {
     if (err) {
+      console.error('JWT Verification Error:', err.message);
       res.status(StatusCodes.FORBIDDEN).send();
     }
-    const userId = userInfo._id;
+    const userId = userInfo && userInfo._id;
     try {
       const user = await userModel.findById(userId);
       if (user == null) {
-        res.status(StatusCodes.FORBIDDEN).send();
-      }
-      if (!user.tokens.includes(token)) {
-        user.tokens = [];
-        await user.save();
+        console.error(`Token not found in user's tokens array`);
         return res.status(StatusCodes.FORBIDDEN).send();
       }
-      user.tokens.splice(user.tokens.indexOf(token), 1);
+      user.tokens = user.tokens.filter((userToken) => userToken !== token);
       await user.save();
       res.status(StatusCodes.OK).send();
     } catch (error) {
+      console.error(error);
       res.status(StatusCodes.FORBIDDEN).send();
     }
   });
@@ -171,13 +170,13 @@ const refresh = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET
       );
 
-      user.tokens[user.tokens.indexOf(token)] = newRefreshToken;
-
+      user.tokens = user.tokens.filter((userToken) => !userToken.includes(token));
       await user.save();
       res
         .status(StatusCodes.OK)
         .send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     } catch (error) {
+      console.error(error);
       res.status(StatusCodes.FORBIDDEN).send();
     }
   });

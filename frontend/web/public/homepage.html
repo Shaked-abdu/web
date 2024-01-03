@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,15 +24,23 @@
       background-color: #4b4b91;
       padding: 1em;
       text-align: center;
+      height: 70px;
+      font-weight: bold;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     section {
       padding: 20px;
-      max-width: 800px;
+      max-width: 1110px;
       margin: 0 auto;
     }
 
-    h1, h2 {
+    h1 {
+      color: #ffffff;
+      font-family: fantasy;
+    }
+
+    h2 {
       color: #ffffff;
     }
 
@@ -52,6 +67,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      display: flex;;
     }
 
     button:hover {
@@ -59,7 +75,7 @@
     }
 
     .post {
-      background-color: #4b4b91;
+      background-color: #8d8dd3;
       border-radius: 10px;
       padding: 10px;
       margin-bottom: 10px;
@@ -67,34 +83,206 @@
   </style>
 </head>
 <body>
+  <div id="scrollContainer" style="height: 100vh; overflow-y: scroll;">
 
-  <header>
-    <h1>Homepage</h1>
-  </header>
+    <header>
+      <h1>Homepage - Medical Help</h1> 
+      <br>       
+      <a href="file:///C:/workspace/web/web/frontend/web/public/index.html">
+        <button>Switch User</button>
+      </a><br>
+      <button onclick="initiateLogout()">Logout</button>
+    </header>
 
-  <section>
-    <h2>Create a New Post</h2>
-    <form class="post-form">
-      <label for="postTitle">Title:</label>
-      <input type="text" id="postTitle" name="postTitle" required>
 
-      <label for="postContent">Content:</label>
-      <textarea id="postContent" name="postContent" required></textarea>
+    <section style="background-color: #4b4b91; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+      <h3 style="color: #ffffff;">New Post</h3>
+      <form class="post-form" id="createPostForm">
+        <label for="postTitle" style="color: #ffffff;">Title:</label>
+        <input type="text" id="postTitle" name="postTitle" required placeholder="Add your title..." style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    
+        <label for="postContent" style="color: #ffffff;">Content:</label>
+        <textarea id="postContent" name="postContent" required placeholder="Add your content..." style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;"></textarea>
+    
+        <button type="button" onclick="createPost()" style="padding: 10px; background-color: #4caf50; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Create Post</button>
+      </form>
+    
+      <div class="post">
+        <h3>Post Title 1</h3>
+        <p>Post content goes here...</p>
+        <textarea id="comment_Post_Title_1" placeholder="Write your comment..."></textarea>
+        <button type="button" onclick="addComment('Post Title 1')">Comment</button>
+        <div class="comments" id="comments_Post_Title_1"></div>
+      </div>
+    
+      <div class="post">
+        <h3>Post Title 2</h3>
+        <p>Post content goes here...</p>
+        <textarea id="comment_Post_Title_2" placeholder="Write your comment..."></textarea>
+        <button type="button" onclick="addComment('Post Title 2')">Comment</button>
+        <div class="comments" id="comments_Post_Title_2"></div>
+      </div>
+    
+      <div class="post">
+        <h3>Post Title 3</h3>
+        <p>Post content goes here...</p>
+        <textarea id="comment_Post_Title_3" placeholder="Write your comment..."></textarea>
+        <button type="button" onclick="addComment('Post Title 3')">Comment</button>
+        <div class="comments" id="comments_Post_Title_3"></div>
+      </div>
+    
+      <div class="post">
+        <h3>Post Title 4</h3>
+        <p>Post content goes here...</p>
+        <textarea id="comment_Post_Title_4" placeholder="Write your comment..."></textarea>
+        <button type="button" onclick="addComment('Post Title 4')">Comment</button>
+        <div class="comments" id="comments_Post_Title_4"></div>
+      </div>
+    </section>
 
-      <button type="submit">Create Post</button>
-    </form>
+    <section id="postsContainer"></section> 
 
-    <h2>Existing Posts</h2>
-    <div class="post">
-      <h3>Post Title 1</h3>
-      <p>Post content goes here...</p>
-    </div>
-
-    <div class="post">
-      <h3>Post Title 2</h3>
-      <p>Post content goes here...</p>
-    </div>
-  </section>
-
+  </div>
 </body>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+//Show posts from mongo
+async function fetchPosts() {
+  try {
+    const response = await fetch('http://localhost:3000/posts', {
+      method: 'GET',
+    });
+
+    const posts = await response.json();
+
+    const postsContainer = document.getElementById('postsContainer');
+    postsContainer.innerHTML = '';
+
+    posts.forEach(post => {
+      const postDiv = document.createElement('div');
+      postDiv.classList.add('post');
+
+      const postTitle = document.createElement('h3');
+      postTitle.textContent = post.title;
+
+      const postContent = document.createElement('p');
+      postContent.textContent = post.content;
+
+      postDiv.appendChild(postTitle);
+      postDiv.appendChild(postContent);
+
+      postsContainer.appendChild(postDiv);
+    });
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+}
+
+  //logout
+    const urlParams = new URLSearchParams(window.location.search);
+
+    let refreshToken = localStorage.getItem('refreshToken');
+
+    if (!refreshToken && urlParams.has('refreshToken')) {
+      refreshToken = urlParams.get('refreshToken');
+      console.log('Received Refresh Token:', refreshToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      console.log('Stored Refresh Token in localStorage:', localStorage.getItem('refreshToken'));
+    }
+
+    async function handleLogout(refreshToken) {
+      try {
+        console.log('Refresh Token:', refreshToken);
+
+        if (!refreshToken) {
+          console.error('Refresh token is missing');
+          return;
+        }
+
+        const response = await fetch('http://localhost:3000/auth/logout', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${refreshToken}`,
+          },
+        });
+
+        console.log('Logout response:', response);
+
+        const responseBody = await response.text();
+        console.log('Response Body:', responseBody);
+
+        if (response.ok) {
+          console.log('Logout successful');
+          localStorage.removeItem('refreshToken');
+        } else {
+          console.error('Logout failed:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    }
+
+    window.initiateLogout = function () {
+      console.log('Initiating logout with Refresh Token:', refreshToken);
+
+      if (!refreshToken) {
+        console.error('Refresh token is missing');
+        return;
+      }
+
+      handleLogout(refreshToken);
+    }
+
+    console.log('Refresh Token on page load:', refreshToken);
+
+    if (refreshToken === null) {
+      console.log('Refresh Token is null, initiating logout');
+      initiateLogout();
+    }
+  });
+
+  //Create new post
+  async function createPost() {
+    const postTitle = document.getElementById('postTitle').value;
+    const postContent = document.getElementById('postContent').value;
+
+    const refreshToken = localStorage.getItem('refreshToken');
+    
+    if (!refreshToken) {
+      console.error('Refresh token is missing');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${refreshToken}`,
+        },
+        body: JSON.stringify({
+          title: postTitle,
+          content: postContent,
+        }),
+      });
+
+      const responseBody = await response.text();
+      console.log('Create Post response:', responseBody);
+
+      if (response.ok) {
+        console.log('Post created successfully');
+
+      } else {
+        console.error('Post creation failed:', response.status, response.statusText);
+        
+      }
+    } catch (error) {
+      console.error('Error during post creation:', error);
+    }
+  }
+
+</script>
+
 </html>
