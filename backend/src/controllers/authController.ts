@@ -50,9 +50,9 @@ const register = async (req, res) => {
       id: req.body.id,
     });
     console.log("before save");
-    const newUser = await user.save();
+    await user.save();
     console.log("after save");
-    res.status(StatusCodes.CREATED).json(newUser);
+    res.status(StatusCodes.CREATED).send()
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
