@@ -7,6 +7,7 @@ import commentRouter from "./routes/commentRoutes";
 import authRouter from "./routes/authRoutes";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import userRouter from "./routes/userRoutes";
 
 const app = express();
 
@@ -42,6 +43,7 @@ const initApp = () => {
       .then(() => {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
+        app.use("/users", userRouter)
         app.use("/posts", postRouter);
         app.use("/comments", commentRouter);
         app.use("/auth", authRouter);
