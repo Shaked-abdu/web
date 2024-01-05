@@ -81,6 +81,21 @@ describe("post tests", () => {
     expect(res.body.title).toBe(post.title);
     expect(res.body.content).toBe(post.content);
   });
+  test("Update post", async () => {
+    const res = await request(app)
+      .put(`/posts/${postId}`)
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({ title: "title2", content2: "content2" });
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.title).toBe("title2");
+  });
+  test("Update non existing post", async () => {
+    const res = await request(app)
+    .put(`/posts/${postId.split("").reverse().join("")}`)
+    .set("Authorization", `Bearer ${accessToken}`)
+    .send({ title: "title2", content2: "content2" });
+    expect(res.status).toBe(StatusCodes.NOT_FOUND);
+  });
   test("Delete post of another user", async () => {
     const res = await request(app)
       .delete(`/posts/${postId}`)

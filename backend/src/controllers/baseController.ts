@@ -55,23 +55,22 @@ export class BaseConstroller<ModelType> {
     }
   }
 
-  // async updateById(req: Request, res: Response) {
-  //   try {
-  //     const object = await this.model.findByIdAndUpdate(
-  //       req.params.id,
-  //       req.body,
-  //       { new: true }
-  //     );
-  //     if (!object) {
-  //       res.status(StatusCodes.NOT_FOUND).json({ message: "Not found" });
-  //     }
-  //     res.send(object);
-  //   } catch (err) {
-  //     res
-  //       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-  //       .json({ message: err.message });
-  //   }
-  // }
+  async updateById(req: Request, res: Response) {
+    try {
+      const object = await this.model.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+      );
+      if (!object) {
+        res.status(StatusCodes.NOT_FOUND).send();
+      }
+      res.send(object);
+    } catch (err) {
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+    }
+  }
 }
 
 const createController = <ModelType>(model: Model<ModelType>) => {
