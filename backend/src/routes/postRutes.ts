@@ -130,4 +130,6 @@ postRouter.delete(
   postController.deleteById.bind(postController)
 );
 
+postRouter.put("/:id", authMiddleware, postController.updateById.bind(postController));
+
 export = postRouter;

@@ -39,7 +39,7 @@ const register = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(req.body.password, salt);
-    const user = new userModel({
+    let user = new userModel({
       email: req.body.email,
       password: hash,
       firstName: req.body.firstName,
@@ -49,10 +49,8 @@ const register = async (req, res) => {
       phoneNumber: req.body.phoneNumber,
       id: req.body.id,
     });
-    console.log("before save");
-    await user.save();
-    console.log("after save");
-    res.status(StatusCodes.CREATED).send()
+    user = await user.save();
+    res.status(StatusCodes.CREATED).send(user._id)
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
