@@ -130,11 +130,6 @@
           </div>
           <div>
             <button onclick="initiateLogout()">Logout</button>
-            <a
-              href="file:///C:/workspace/web/web/frontend/web/public/index.html"
-            >
-              <button>Switch User</button>
-            </a>
           </div>
         </div>
       </header>
@@ -493,6 +488,7 @@
         }
 
         handleLogout(refreshToken);
+        window.location.href = "file:///C:/workspace/web/web/frontend/web/public/index.html";
       };
 
       console.log("Refresh Token on page load:", refreshToken);
