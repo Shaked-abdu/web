@@ -6,11 +6,13 @@ const commentRouter = Router();
 
 /**
  * @swagger
- * /post/{id}:
+ * /comments/post/{id}:
  *   get:
  *     tags:
  *       - Comments
  *     summary: Get comments by post ID
+ *     security:
+ *      - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -35,11 +37,13 @@ commentRouter.get(
 );
 /**
  * @swagger
- * /:
+ * /comments:
  *   post:
  *     tags:
  *       - Comments
  *     summary: Post a new comment
+ *     security:
+ *      - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -61,11 +65,13 @@ commentRouter.post(
 );
 /**
  * @swagger
- * /{id}:
+ * /comments/{id}:
  *   delete:
  *     tags:
  *       - Comments
  *     summary: Delete a comment by ID
+ *     security:
+ *      - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
