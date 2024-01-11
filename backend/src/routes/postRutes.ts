@@ -10,6 +10,8 @@ const postRouter = Router();
  *     tags:
  *       - Posts
  *     summary: Get all posts
+ *     security:
+ *      - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successful operation
@@ -26,6 +28,8 @@ postRouter.get("/", authMiddleware, postController.getAll.bind(postController));
  *     tags:
  *       - Posts
  *     summary: Get a post by ID
+ *     security:
+ *      - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -50,11 +54,13 @@ postRouter.get(
 );
 /**
  * @swagger
- * /comments/user/{id}:
+ * /posts/user/{id}:
  *   get:
  *     tags:
  *       - Posts
  *     summary: Get posts by user ID
+ *     security:
+ *      - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -85,6 +91,8 @@ postRouter.get(
  *     tags:
  *       - Posts
  *     summary: Create a new post
+ *     security:
+ *      - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -107,6 +115,8 @@ postRouter.post("/", authMiddleware, postController.post.bind(postController));
  *     tags:
  *       - Posts
  *     summary: Delete a post by ID
+ *     security:
+ *      - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -129,5 +139,39 @@ postRouter.delete(
   authMiddleware,
   postController.deleteById.bind(postController)
 );
+
+/**
+ * @swagger
+ * /posts/{id}:
+ *   put:
+ *     tags:
+ *       - Posts
+ *     summary: Update a post by ID
+ *     security:
+ *      - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the post to update
+ *     responses:
+ *       200:
+ *         description: Updated
+ *       404:
+ *         description: Post not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
+postRouter.put("/:id", authMiddleware, postController.updateById.bind(postController));
 
 export = postRouter;

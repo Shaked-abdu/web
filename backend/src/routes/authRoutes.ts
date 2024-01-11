@@ -66,11 +66,20 @@ authRouter.post("/register", authController.register);
  *   summary: logs in a user
  *   tags: [Auth]
  *   requestBody:
- *    required: true
- *    content:
- *     application/json:
- *      schema:
- *       $ref: '#/components/schemas/User'
+ *     required: true
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         email:
+ *          type: string
+ *          description: Email of the user
+ *          example: 'test@test'
+ *         password:
+ *          type: string
+ *          description: Password of the user
+ *          example: '1234567890'
  *   responses:
  *    200:
  *     description: The JWT tokens
@@ -98,7 +107,7 @@ authRouter.get("/logout", authController.logout);
 
 /**
 * @swagger
-* /auth/refreshToken:
+* /auth/refresh:
 *  get:
 *   summary: get a new access token using the refresh token
 *   tags: [Auth]
