@@ -24,6 +24,7 @@ class UserController extends BaseConstroller<IUser> {
         profession: dbUser.profession,
         phoneNumber: dbUser.phoneNumber,
         id: dbUser.id,
+        _id: dbUser._id,
       };
       res.send(user);
     } catch (err) {
