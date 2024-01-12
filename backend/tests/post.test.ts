@@ -47,6 +47,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await userModel.deleteMany({ email: user.email });
   await userModel.deleteMany({ email: user2.email });
+  await postModel.deleteMany();
   await mongoose.connection.close();
 });
 
