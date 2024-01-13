@@ -53,7 +53,7 @@ import mongoose from "mongoose";
 
 export interface IUser {
   email: string;
-  password: string;
+  password?: string;
   _id?: string; 
   tokens?: string[];
   firstName: string;
