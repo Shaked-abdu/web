@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import postRouter from "./routes/postRutes";
 import commentRouter from "./routes/commentRoutes";
 import authRouter from "./routes/authRoutes";
+import imageRouter from "./routes/imageRouter";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import userRouter from "./routes/userRoutes";
@@ -66,6 +67,7 @@ const initApp = () => {
         app.use("/comments", commentRouter);
         app.use("/auth", authRouter);
         app.use("/auth", googleRouter)
+        app.use("/images", imageRouter);
         resolve(app);
       })
       .catch((err) => {
