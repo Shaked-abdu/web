@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { StatusCodes } from "http-status-codes";
 
 const imageRouter = Router();
 
@@ -35,7 +36,7 @@ imageRouter.post(
     if (!req.file) {
       res.status(400).send();
     }
-    res.send();
+    res.status(StatusCodes.CREATED).send();
   }
 );
 

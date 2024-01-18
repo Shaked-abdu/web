@@ -73,36 +73,22 @@ googleRouter.get(
         return res.redirect("/google/failure");
       }
 
-      // Construct the destination URL with parameters
       const destinationURL = `${process.env.CLIENT_BASE_PATH}/register-google/${email}/${password}`
 
-      // Redirect to the destination URL
       return res.redirect(destinationURL);
     })(req, res, next);
   }
-  // passport.authenticate("google", {
-  //   successRedirect: `${process.env.CLIENT_BASE_PATH}/register-google`,
-  //   failureRedirect: "/google/failure",
-  // })
+
 );
 
-const isLoggedIn = (req, res, next) => {
-  if (req.user) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-};
+
 
 export interface GoogleAuthRequest extends Request {
   user?: { displayName: string };
   session?: { destroy: () => void };
 }
 
-googleRouter.get("/protected", isLoggedIn, (req: Request, res: Response) => {
-  const name = (req as GoogleAuthRequest).user.displayName;
-  res.send(`You are authenticated ${name}`);
-});
+
 
 googleRouter.get("/google-logout", (req, res) => {
   (req as GoogleAuthRequest).session.destroy();
