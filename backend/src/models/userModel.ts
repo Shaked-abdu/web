@@ -53,7 +53,7 @@ import mongoose from "mongoose";
 
 export interface IUser {
   email: string;
-  password: string;
+  password?: string;
   _id?: string; 
   tokens?: string[];
   firstName: string;
@@ -80,30 +80,25 @@ const userSchema = new mongoose.Schema<IUser>({
   firstName: {
     type: String,
     required: true,
-    maxlength: 20,
+    maxlength: 50,
   },
   lastName: {
     type: String,
-    required: true,
-    maxlength: 20,
+    maxlength: 50,
   },
   age: {
     type: Number,
-    required: true,
   },
   profession: {
     type: String,
-    required: true,
     maxlength: 50,
   },
   phoneNumber: {
     type: String,
-    required: true,
     maxlength: 20,
   },
   id: {
     type: String,
-    required: true,
   },
 });
 
