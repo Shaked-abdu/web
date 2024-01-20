@@ -177,7 +177,7 @@ const Post: React.FC<IProps> = ({
 
   return (
     <>
-      <div className="card">
+      <div className="card" style={{ background: "#d9fffc" }} >
         <div onClick={handlePostClick}>
           <div className="card-header">
             <h2> {ownerName} </h2>

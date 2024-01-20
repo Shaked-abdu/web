@@ -98,7 +98,7 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
   };
   return (
     <>
-      <div>
+      <div style={{ background: "#d9fffc" }}>
         <form onSubmit={handleSubmit}>
           <div className="col-md-6 mx-auto" dir="rtl">
             <label>מייל</label>
@@ -139,8 +139,8 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
       <div className="col-md-6 mx-auto" dir="rtl">
             <button onClick={handleGooleLogin} className="btn btn-primary">התחברות עם google</button>
           </div>
-      <label>
-        Remember Me
+      <label style={{ direction: "ltr" }}>
+        זכור פרטי התחברות
         <input
           type="checkbox"
           checked={rememberMe}

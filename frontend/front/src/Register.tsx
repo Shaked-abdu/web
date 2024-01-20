@@ -49,7 +49,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
 
   return (
-    <form className="mt-3">
+    <form className="mt-3" style={{ background: "#d9fffc" }}>
       <div className="col-md-6 mx-auto" dir="rtl">
         <label htmlFor="email" className="form-label">
           מייל
@@ -155,7 +155,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         />
       </div>
       <div>
-        <input type="file" onChange={handleFileChange} />
+        <input type="file" style={{ direction: "rtl" }} onChange={handleFileChange} />
       </div>
       <div className="col-md-6 mx-auto">
         <button
