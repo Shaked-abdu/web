@@ -98,7 +98,7 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
   };
   return (
     <>
-      <div style={{ background: "#d9fffc" }}>
+      <div style={{ background: "#71bcf3cc" }}>
         <form onSubmit={handleSubmit}>
           <div className="col-md-6 mx-auto" dir="rtl">
             <label>מייל</label>
@@ -135,9 +135,8 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </p>
           </div>
         </form>
-      </div>
-      <div className="col-md-6 mx-auto" dir="rtl">
-            <button onClick={handleGooleLogin} className="btn btn-primary">התחברות עם google</button>
+            <div className="col-md-6 mx-auto" dir="rtl">
+            <button onClick={handleGooleLogin} className="btn btn-primary">התחבר עם google</button>
           </div>
       <label style={{ direction: "ltr" }}>
         זכור פרטי התחברות
@@ -147,6 +146,8 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
           onChange={() => setRememberMe(!rememberMe)}
         />
       </label>
+      </div>
+
     </>
   );
 };

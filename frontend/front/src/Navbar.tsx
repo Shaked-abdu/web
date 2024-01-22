@@ -22,8 +22,12 @@ const TopNavbar: React.FC<TopNavbarProps> = ({
     navigate("/extra");
   };
   return (
-    <nav className="navbar navbar-dark bg-primary">
-      <div style={{ height: "40px" }}>
+  <nav className="navbar navbar-dark bg-primary">
+    <div style={{ height: "40px" }}>
+      <p className="navbar-text">Hospital Help</p>
+    </div>
+    
+  <div style={{ height: "40px" }}>
         {isLoggedIn && (
           <button type="submit" className="btn btn-light" onClick={onLogout}>
             התנתקות

@@ -49,7 +49,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
 
   return (
-    <form className="mt-3" style={{ background: "#d9fffc" }}>
+    <form className="mt-3" style={{ background: "#71bcf3cc" }}>
       <div className="col-md-6 mx-auto" dir="rtl">
         <label htmlFor="email" className="form-label">
           מייל

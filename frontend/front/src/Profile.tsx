@@ -72,7 +72,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
   };
   return (
     <div dir="rtl" className="container mt-5">
-      <div className="card" style={{ width: "80%", margin: "0 auto", background: "#d9fffc" }}>
+      <div className="card" style={{ width: "80%", margin: "0 auto", background: "#71bcf3cc" }}>
         <div className="card-header">
           <h1>פרופיל</h1>
         </div>
