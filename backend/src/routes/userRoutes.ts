@@ -98,5 +98,33 @@ userRouter.get(
  */
 userRouter.put("/:id", authMiddleware, UserController.update.bind(UserController));
 
+/**
+ * @swagger
+ * /users/email/{email}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get a user by Email
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: email of the user to get
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *        description: User not found
+ *       401:
+ *        description: Unauthorized
+ *       500:
+ *        description: Server error
+ */
+userRouter.get("/email/:email", authMiddleware, UserController.getByEmail.bind(UserController));
+
 
 export = userRouter;

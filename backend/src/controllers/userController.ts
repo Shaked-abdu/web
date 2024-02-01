@@ -24,6 +24,7 @@ class UserController extends BaseConstroller<IUser> {
         profession: dbUser.profession,
         phoneNumber: dbUser.phoneNumber,
         id: dbUser.id,
+        _id: dbUser._id,
       };
       res.send(user);
     } catch (err) {
@@ -52,6 +53,30 @@ class UserController extends BaseConstroller<IUser> {
       res.status(500).send();
     }
   }
+
+  async getByEmail(req: AuthRequest, res: Response) {
+    try {
+      const dbUser = await userModel.findOne({ email: req.params.email });
+      if (!dbUser) {
+        res.status(404).send();
+      }
+      const user = {
+        email: dbUser.email,
+        age: dbUser.age,
+        firstName: dbUser.firstName,
+        lastName: dbUser.lastName,
+        profession: dbUser.profession,
+        phoneNumber: dbUser.phoneNumber,
+        id: dbUser.id,
+        _id: dbUser._id,
+      };
+      res.send(user);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send();
+    }
+  }
+  
 }
 
 export default new UserController(userModel);

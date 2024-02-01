@@ -141,6 +141,7 @@ const refresh = async (req, res) => {
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
     res.status(StatusCodes.UNAUTHORIZED).send();
+    return;
   }
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userInfo) => {
     if (err) {
