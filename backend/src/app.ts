@@ -23,7 +23,8 @@ const initApp = () => {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      cookie: { secure: false },
+      cookie: { secure: false, maxAge: 60000},
+      
     })
   );
 
