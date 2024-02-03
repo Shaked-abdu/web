@@ -60,6 +60,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await userModel.deleteMany({ email: user.email });
   await userModel.deleteMany({ email: user2.email });
+  await commentModel.deleteMany();
   await mongoose.connection.close();
 });
 
