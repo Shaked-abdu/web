@@ -16,6 +16,7 @@ import MemoryStore from "memorystore";
 const app = express();
 
 const initApp = () => {
+  
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
