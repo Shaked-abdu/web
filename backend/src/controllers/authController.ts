@@ -59,7 +59,6 @@ const register = async (req, res) => {
 };
 const login = async (req, res) => {
   console.log("login");
-  console.log("req.body ", req.body);
   const email = req.body.email;
   const password = req.body.password;
 
@@ -107,29 +106,30 @@ const login = async (req, res) => {
 };
 const logout = async (req, res) => {
   console.log("logout");
-  console.log("req.headers ",req.headers);
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
-    return res.status(StatusCodes.UNAUTHORIZED).send();
+    res.status(StatusCodes.UNAUTHORIZED).send();
   }
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userInfo) => {
     if (err) {
-      console.error('JWT Verification Error:', err.message);
       res.status(StatusCodes.FORBIDDEN).send();
     }
-    const userId = userInfo && userInfo._id;
+    const userId = userInfo._id;
     try {
       const user = await userModel.findById(userId);
       if (user == null) {
-        console.error(`Token not found in user's tokens array`);
+        res.status(StatusCodes.FORBIDDEN).send();
+      }
+      if (!user.tokens.includes(token)) {
+        user.tokens = [];
+        await user.save();
         return res.status(StatusCodes.FORBIDDEN).send();
       }
-      user.tokens = user.tokens.filter((userToken) => userToken !== token);
+      user.tokens.splice(user.tokens.indexOf(token), 1);
       await user.save();
       res.status(StatusCodes.OK).send();
     } catch (error) {
-      console.error(error);
       res.status(StatusCodes.FORBIDDEN).send();
     }
   });
@@ -169,13 +169,13 @@ const refresh = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET
       );
 
-      user.tokens = user.tokens.filter((userToken) => !userToken.includes(token));
+      user.tokens[user.tokens.indexOf(token)] = newRefreshToken;
+
       await user.save();
       res
         .status(StatusCodes.OK)
         .send({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     } catch (error) {
-      console.error(error);
       res.status(StatusCodes.FORBIDDEN).send();
     }
   });
