@@ -7,8 +7,6 @@ import postRouter from "./routes/postRutes";
 import commentRouter from "./routes/commentRoutes";
 import authRouter from "./routes/authRoutes";
 import imageRouter from "./routes/imageRouter";
-import swaggerUi from "swagger-ui-express";
-import swaggerJsDoc from "swagger-jsdoc";
 import userRouter from "./routes/userRoutes";
 import passport from "passport";
 import googleRouter from "./routes/googleRoutes";
@@ -40,23 +38,6 @@ const initApp = () => {
   db.once("open", () => {
     console.log("Connected to Database");
   });
-
-  if (process.env.NODE_ENV === "development") {
-    const swaggerOptions = {
-      definition: {
-        openapi: "3.0.0",
-        info: {
-          title: "API",
-          description: "API Information",
-          version: "1.0.0",
-        },
-        servers: [{ url: "http://localhost:3000" }],
-      },
-      apis: ["./src/routes/*.ts", "./src/models/*.ts"],
-    };
-    const specs = swaggerJsDoc(swaggerOptions);
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-  }
 
   return new Promise<Express>((resolve, reject) => {
     mongoose
