@@ -7,13 +7,11 @@ import postRouter from "./routes/postRutes";
 import commentRouter from "./routes/commentRoutes";
 import authRouter from "./routes/authRoutes";
 import imageRouter from "./routes/imageRouter";
-import swaggerUi from "swagger-ui-express";
-import swaggerJsDoc from "swagger-jsdoc";
-import cors from 'cors';
 import userRouter from "./routes/userRoutes";
 import passport from "passport";
 import googleRouter from "./routes/googleRoutes";
 import cors from "cors";
+import MemoryStore from "memorystore";
 
 const app = express();
 
@@ -24,7 +22,8 @@ const initApp = () => {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      cookie: { secure: false },
+      cookie: { secure: false, maxAge: 60000},
+      store: new (MemoryStore(session))({ checkPeriod: 86400000 }),
     })
   );
 
@@ -40,30 +39,10 @@ const initApp = () => {
     console.log("Connected to Database");
   });
 
-  if (process.env.NODE_ENV === "development") {
-    const swaggerOptions = {
-      definition: {
-        openapi: "3.0.0",
-        info: {
-          title: "API",
-          description: "API Information",
-          version: "1.0.0",
-        },
-        servers: [{ url: "http://localhost:3000" }],
-      },
-      apis: ["./src/routes/*.ts", "./src/models/*.ts"],
-    };
-    const specs = swaggerJsDoc(swaggerOptions);
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-  }
-
-  app.use(cors());
-
   return new Promise<Express>((resolve, reject) => {
     mongoose
       .connect(process.env.DB_URL)
       .then(() => {
-        console.log("Connected to Database");
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use("/users", userRouter);
@@ -75,7 +54,6 @@ const initApp = () => {
         resolve(app);
       })
       .catch((err) => {
-        console.error(`Failed to connect to Database: ${err}`);
         reject(err);
       });
   });
