@@ -13,6 +13,7 @@ import userRouter from "./routes/userRoutes";
 import passport from "passport";
 import googleRouter from "./routes/googleRoutes";
 import cors from "cors";
+import MemoryStore from "memorystore";
 
 const app = express();
 
@@ -24,7 +25,7 @@ const initApp = () => {
       resave: false,
       saveUninitialized: false,
       cookie: { secure: false, maxAge: 60000},
-      
+      store: new (MemoryStore(session))({ checkPeriod: 86400000 }),
     })
   );
 
