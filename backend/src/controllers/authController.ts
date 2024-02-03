@@ -50,7 +50,7 @@ const register = async (req, res) => {
       id: req.body.id,
     });
     user = await user.save();
-    res.status(StatusCodes.CREATED).send(user._id)
+    res.status(StatusCodes.CREATED).send(user._id);
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();

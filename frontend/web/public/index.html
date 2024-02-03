@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Hospital Help</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000e2d;
+    }
+
+    .login-container {
+      background-color: #4b4b91;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 100px;
+      width: 300px;
+      height: 360px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(75, 207, 240, 0.5); 
+      text-align: unset;
+      position: relative; 
+    }
+
+    .login-container h1 {
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+
+    .form-group input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-group button {
+      padding: 10px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .form-group button:hover {
+      background-color: #45a049;
+    }
+
+    
+    .form-group button.signup {
+      background-color: #ff4081;
+      position: absolute; 
+      bottom: 10px; 
+      right: 10px; 
+    }
+  </style>
+</head>
+<body>
+  
+<div class="login-container">
+  <h1>Login</h1>
+  <form class="login-form" onsubmit="handleLogin(event)">
+    <div class="form-group">
+      <label for="username">Email:</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    </div>
+    <div class="form-group">  
+      <button type="submit">Login</button>
+    </div>
+    <div class="form-group">
+      <button type="button" onclick="window.location.href='file:///C:/workspace/web/web/frontend/web/public/profile.html'" class="signup">
+        Sign Up
+      </button>
+    </div>
+    <div>
+      <img class="logo" src="file:///C:/workspace/web/web/frontend/web/public/logo192.png" alt="Logo">
+    </div>
+  </form>
+</div>
+
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+
+<script>
+  async function handleLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+
+        // Save tokens to local storage
+        localStorage.setItem('refreshToken', data.refreshToken);
+        localStorage.setItem('accessToken', data.accessToken);
+
+        window.location.href = 'file:///C:/workspace/web/web/frontend/web/public/homepage.html';
+      } else {
+        console.error('Login failed');
+        alert('Login failed!');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('Error during login!');
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"
+/>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <style>
+      body {
+        background-color: #000e2d;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #4b4b91;
+        padding: 1em;
+        text-align: center;
+        height: 100px;
+        font-weight: bold;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      section {
+        padding: 20px;
+        max-width: 1110px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #ffffff;
+        font-family: fantasy;
+        margin-left: 700px;
+      }
+
+      h2 {
+        color: #ffffff;
+      }
+
+      .post-form {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #4b4b91;
+        margin-top: 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      button {
+        padding: 5px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        margin-right: 20px;
+        margin-top: 5px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .post {
+        background-color: #8d8dd3;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .post h3 {
+        border-bottom: 1px solid #ffffff;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+      }
+
+      .modal-body{
+        color: #000000;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="scrollContainer" style="height: 100vh; overflow-y: scroll">
+      <header>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <div>
+            <h1>Homepage - Medical Help</h1>
+          </div>
+          <div>
+            <button onclick="initiateLogout()">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <section style="border-radius: 5px; padding: 10px; margin-bottom: 10px">
+        <form class="post-form" id="createPostForm">
+          <h3
+            style="
+              color: #ffffff;
+              border-bottom: 1px solid #ffffff;
+              padding-bottom: 5px;
+              margin-bottom: 10px;
+            "
+          >
+            New Post
+          </h3>
+          <label for="postTitle" style="color: #ffffff">Title:</label>
+          <input
+            type="text"
+            id="postTitle"
+            name="postTitle"
+            required
+            placeholder="Add your title..."
+            style="
+              width: 100%;
+              padding: 8px;
+              margin-bottom: 10px;
+              box-sizing: border-box;
+            "
+          />
+
+          <label for="postContent" style="color: #ffffff">Content:</label>
+          <textarea
+            id="postContent"
+            name="postContent"
+            required
+            placeholder="Add your content..."
+            style="
+              width: 100%;
+              padding: 8px;
+              margin-bottom: 10px;
+              box-sizing: border-box;
+            "
+          ></textarea>
+
+          <button
+            type="button"
+            onclick="createPost()"
+            style="
+              padding: 10px;
+              background-color: #4caf50;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+            "
+            data-toggle="modal"
+            data-target="#successModal"
+          >
+            Create Post
+          </button>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: none;">
+              <h1>Homepage - Medical Help</h1>
+            </div>
+            <div style="position: relative;">
+              <img
+                class="logo"
+                src="file:///C:/workspace/web/web/frontend/web/public/logo192.png"
+                alt="Logo"
+                style="width: 50px; height: 50px; position: absolute; top: 50%; transform: translateY(-100%); left: 1010px;"
+              />
+            </div>
+          </div>
+        </form>
+      </section>
+      <section id="postsContainer"></section>
+    </div>
+
+    <div
+      class="modal fade"
+      id="successModal"
+      tabindex="-1"
+      aria-labelledby="successModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="successModalLabel">Success!</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">Post created successfully!</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    //Create post
+    async function createPost() {
+      console.log("Create post clicked!");
+      const postTitle = document.getElementById("postTitle").value;
+      const postContent = document.getElementById("postContent").value;
+
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken) {
+        console.error("Refresh token is missing");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshToken}`,
+          },
+          body: JSON.stringify({
+            title: postTitle,
+            content: postContent,
+          }),
+        });
+
+        const responseBody = await response.json();
+        console.log("Create Post response:", responseBody);
+
+        if (response.ok) {
+          console.log("Post created successfully");
+          await fetchPosts();
+          $("#successModal .modal-body").text("Post created successfully!");
+          $("#successModal").modal("show");
+        } else {
+          console.error(
+            "Post creation failed:",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error during post creation:", error);
+      }
+    }
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      await fetchPosts();
+
+//Show posts from mongo
+async function fetchPosts() {
+  try {
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (!refreshToken) {
+      console.error("Refresh token is missing");
+      return;
+    }
+
+    const response = await fetch("http://localhost:3000/posts", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Error fetching posts:", response.statusText);
+      throw new Error(response.statusText);
+    }
+
+    const posts = await response.json();
+
+    const postsContainer = document.getElementById("postsContainer");
+    postsContainer.innerHTML = "";
+
+    // Iterate over posts
+    for (const post of posts) {
+      // Fetch user details for each post
+      const user = await fetchUser(post.owner);
+
+      // Create elements for post details
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("post");
+
+      const postTitle = document.createElement("h3");
+      postTitle.textContent = post.title;
+
+      const postContent = document.createElement("p");
+      postContent.textContent = post.content;
+
+      // Display first name and last name of the user
+      const postOwner = document.createElement("p");
+      postOwner.textContent = `Writer details: ${user.firstName} ${user.lastName}`;
+
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () => deletePost(post._id));
+
+      // Create list for comments
+      const commentsList = document.createElement("ul");
+      commentsList.id = `commentsContainer_${post._id}`;
+
+      // Fetch and display comments
+      const comments = await fetchComments(post._id);
+      for (const comment of comments) {
+        const commentItem = document.createElement("li");
+        commentItem.textContent = comment.content;
+        commentsList.appendChild(commentItem);
+      }
+
+      // Add comment input and button
+      const commentInput = document.createElement("input");
+      commentInput.type = "text";
+      commentInput.id = `commentContent_${post._id}`;
+      commentInput.placeholder = "Add your comment...";
+
+      const commentButton = document.createElement("button");
+      commentButton.textContent = "Add Comment";
+      commentButton.addEventListener("click", () => postComment(post._id));
+
+      // Append elements to post container
+      postDiv.appendChild(postTitle);
+      postDiv.appendChild(postContent);
+      postDiv.appendChild(postOwner);
+      postDiv.appendChild(deleteButton);
+      postDiv.appendChild(commentsList);
+      postDiv.appendChild(commentInput);
+      postDiv.appendChild(commentButton);
+
+      postsContainer.appendChild(postDiv);
+    }
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  }
+}
+
+      //fetch user
+      async function fetchUser(userId) {
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+
+          if (!refreshToken) {
+            console.error("Refresh token is missing");
+            return;
+          }
+
+          const response = await fetch(`http://localhost:3000/users/${userId}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          });
+
+          if (!response.ok) {
+            console.error("Error fetching user details:", response.statusText);
+            throw new Error(response.statusText);
+          }
+
+          const user = await response.json();
+          return user;
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      }
+
+      // הפונקציה initiateRefresh מבצעת רענון של הטוקנים
+      async function initiateRefresh() {
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        if (!refreshToken) {
+          console.error("Refresh token is missing");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:3000/auth/refresh", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          });
+
+          const responseBody = await response.json();
+
+          if (response.ok) {
+            console.log("Tokens refreshed successfully");
+            localStorage.setItem("accessToken", responseBody.accessToken);
+          } else {
+            console.error(
+              "Token refresh failed:",
+              response.status,
+              response.statusText
+            );
+          }
+        } catch (error) {
+          console.error("Error during token refresh:", error);
+        }
+      }
+
+
+      //logout
+      const urlParams = new URLSearchParams(window.location.search);
+
+      let refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken && urlParams.has("refreshToken")) {
+        refreshToken = urlParams.get("refreshToken");
+        console.log("Received Refresh Token:", refreshToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        console.log(
+          "Stored Refresh Token in localStorage:",
+          localStorage.getItem("refreshToken")
+        );
+      }
+
+      async function handleLogout(refreshToken) {
+        try {
+          console.log("Refresh Token:", refreshToken);
+
+          if (!refreshToken) {
+            console.error("Refresh token is missing");
+            return;
+          }
+
+          const response = await fetch("http://localhost:3000/auth/logout", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          });
+
+          console.log("Logout response:", response);
+
+          const responseBody = await response.text();
+          console.log("Response Body:", responseBody);
+
+          if (response.ok) {
+            console.log("Logout successful");
+            localStorage.removeItem("refreshToken");
+          } else {
+            console.error(
+              "Logout failed:",
+              response.status,
+              response.statusText
+            );
+          }
+        } catch (error) {
+          console.error("Error during logout:", error);
+        }
+      }
+
+      window.initiateLogout = function () {
+        console.log("Initiating logout with Refresh Token:", refreshToken);
+
+        if (!refreshToken) {
+          console.error("Refresh token is missing");
+          return;
+        }
+
+        handleLogout(refreshToken);
+        window.location.href = "file:///C:/workspace/web/web/frontend/web/public/index.html";
+      };
+
+      console.log("Refresh Token on page load:", refreshToken);
+
+      if (refreshToken === null) {
+        console.log("Refresh Token is null, initiating logout");
+        initiateLogout();
+      }
+
+      //delete post
+      async function deletePost(postId) {
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        if (!refreshToken) {
+          console.error("Refresh token is missing");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `http://localhost:3000/posts/${postId}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            console.log("Post deleted successfully");
+            await fetchPosts();
+          } else {
+            console.error(
+              "Post deletion failed:",
+              response.status,
+              response.statusText
+            );
+          }
+        } catch (error) {
+          console.error("Error during post deletion:", error);
+        }
+      }
+
+
+          // Function to post a comment
+          function toggleComments(postId) {
+      const commentsContainer = document.getElementById(`commentsContainer_${postId}`);
+      commentsContainer.style.display = "block";
+      }
+    // Function to post a comment
+    async function postComment(postId) {
+      const commentContentInput = document.getElementById(
+        `commentContent_${postId}`
+      );
+
+      if (!commentContentInput) {
+        console.error("Comment input element not found");
+        return;
+      }
+
+      const commentContent = commentContentInput.value;
+
+      if (commentContent === null || commentContent === undefined) {
+        console.error("Comment content is null or undefined");
+        return;
+      }
+
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken) {
+        console.error("Refresh token is missing");
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:3000/comments`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshToken}`,
+          },
+          body: JSON.stringify({
+            postId: postId,
+            content: commentContent,
+          }),
+        });
+
+        if (response.ok) {
+          console.log("Comment added successfully");
+          await fetchPosts(); // Refresh posts after adding a comment
+          toggleComments(postId); // Show comments after adding a new comment
+        } else {
+          console.error(
+            "Comment creation failed:",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error during comment creation:", error);
+      }
+    }
+
+    // fetchComments
+    async function fetchComments(postId) {
+      try {
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        if (!refreshToken) {
+          console.error("Refresh token is missing");
+          return [];
+        }
+        const response = await fetch(
+          `http://localhost:3000/comments/post/${postId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          console.error("Error fetching comments:", response.statusText);
+          throw new Error(response.statusText);
+        }
+
+        const comments = await response.json();
+        return comments;
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+        return [];
+      }
+    }
+
+    });
+  </script>
+</html>

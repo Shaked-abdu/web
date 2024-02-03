@@ -16,13 +16,13 @@ import MemoryStore from "memorystore";
 const app = express();
 
 const initApp = () => {
-
+  
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      cookie: { secure: false, maxAge: 60000},
+      cookie: { secure: false, maxAge: 60000 },
       store: new (MemoryStore(session))({ checkPeriod: 86400000 }),
     })
   );
@@ -49,7 +49,7 @@ const initApp = () => {
         app.use("/posts", postRouter);
         app.use("/comments", commentRouter);
         app.use("/auth", authRouter);
-        app.use("/auth", googleRouter)
+        app.use("/auth", googleRouter);
         app.use("/images", imageRouter);
         resolve(app);
       })
