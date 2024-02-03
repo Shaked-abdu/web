@@ -6,7 +6,8 @@
     "test": "tsc && jest --coverage --runInBand --detectOpenHandles --forceExit",
     "start": "tsc && node dist/src/server.js",
     "lint": "eslint . --ext .ts",
-    "dev": "nodemon ./src/server.ts"
+    "dev": "nodemon ./src/server.ts", 
+    "prod": "pm2 restart ecosystem.config.js --env production"
   },
   "author": "",
   "license": "ISC",
