@@ -29,6 +29,27 @@ interface IImageRequest extends Request {
   file: multer.Multer.File;
 }
 
+
+/**
+ * @swagger
+ * /images/uploads/{id}:
+ *   post:
+ *     tags:
+ *       - Images
+ *     summary: Upload image by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the image to get
+ *     responses:
+ *       201:
+ *         description: Successful operation
+ *       400:
+ *        description: Bad request
+ */
 imageRouter.post(
   "/uploads/:id",
   upload.single("image"),
@@ -40,6 +61,26 @@ imageRouter.post(
   }
 );
 
+/**
+ * @swagger
+ * /images/{id}:
+ *   get:
+ *     tags:
+ *       - Images
+ *     summary: Get a image by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the image to get
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *        description: User not found
+ */
 imageRouter.get("/:id", (req, res) => {
   const imageId = req.params.id;
   const imagePath = path.join(__dirname, "uploads", `${imageId}.png`);
