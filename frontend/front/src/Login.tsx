@@ -98,7 +98,7 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
   };
   return (
     <>
-      <div style={{ background: "#71bcf3cc" }}>
+      <div>
         <form onSubmit={handleSubmit}>
           <div className="col-md-6 mx-auto" dir="rtl">
             <label>מייל</label>
@@ -124,10 +124,18 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
             />
             <div style={{ color: "red" }}>{formState.errors.password}</div>
           </div>
-          <div className="col-md-6 mx-auto">
+          <div className="col-md-6 mx-auto" style={{marginTop: "10px", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
             <button type="submit" className="btn btn-primary">
               התחבר
             </button>
+            <label style={{ direction: "ltr" }}>
+              זכור פרטי התחברות
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+              />
+            </label>
           </div>
           <div className="col-md-6 mx-auto" dir="rtl">
             <p>
@@ -135,19 +143,12 @@ const Login: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </p>
           </div>
         </form>
-            <div className="col-md-6 mx-auto" dir="rtl">
-            <button onClick={handleGooleLogin} className="btn btn-primary">התחבר עם google</button>
-          </div>
-      <label style={{ direction: "ltr" }}>
-        זכור פרטי התחברות
-        <input
-          type="checkbox"
-          checked={rememberMe}
-          onChange={() => setRememberMe(!rememberMe)}
-        />
-      </label>
+        <div className="col-md-6 mx-auto" dir="rtl">
+          <button onClick={handleGooleLogin} className="btn btn-primary">
+            התחבר עם google
+          </button>
+        </div>
       </div>
-
     </>
   );
 };

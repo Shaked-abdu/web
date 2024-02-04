@@ -37,7 +37,7 @@ const PostList: React.FC<PostListProps> = ({
         return post;
       })
     );
-  }
+  };
 
   const handleAddPost = () => {
     navigate("/add-post");
@@ -52,18 +52,6 @@ const PostList: React.FC<PostListProps> = ({
   };
   return (
     <>
-      <div dir="rtl" className="col-md-6 mx-auto">
-        {allPosts && (
-          <button className="btn btn-primary" onClick={handleUserPosts}>
-            הפוסטים שלי
-          </button>
-        )}
-        {!allPosts && (
-          <button className="btn btn-primary" onClick={handleAllPosts}>
-            כל הפוסטים
-          </button>
-        )}
-      </div>
       <div className="col-md-6 mx-auto" dir="rtl">
         {displayedPosts.map((post) => (
           <Post
@@ -78,8 +66,18 @@ const PostList: React.FC<PostListProps> = ({
       </div>
       <div style={{ position: "relative" }}>
         <div style={{ position: "fixed", bottom: "20px", left: "20px" }}>
-          <button onClick={handleAddPost}>
-            <span className="material-icons">post_add</span>
+          {allPosts && (
+            <button className="btn btn-primary" onClick={handleUserPosts} style={{marginRight: "10px"}}>
+              הפוסטים שלי
+            </button>
+          )}
+          {!allPosts && (
+            <button className="btn btn-primary" onClick={handleAllPosts}  style={{marginRight: "10px"}}>
+              כל הפוסטים
+            </button>
+          )}
+          <button onClick={handleAddPost} className="btn btn-primary">
+            פוסט חדש
           </button>
         </div>
       </div>

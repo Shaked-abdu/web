@@ -23,6 +23,8 @@ const PostDetails: React.FC<PostDetailsProps> = ({ accessToken }) => {
   const [ownerName, setOwnerName] = useState<string>("");
   const [comments, setComments] = useState<IComment[]>([]);
   const [owners, setOwners] = useState<string[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>("");
+
   useEffect(() => {
     const loadOwners = async () => {
       const responses = await Promise.all(
@@ -42,8 +44,22 @@ const PostDetails: React.FC<PostDetailsProps> = ({ accessToken }) => {
     if (post) {
       loadOwner();
       loadComments();
+      handleGetImage();
     }
-  }, [post]);
+  }, [post])
+
+
+
+  const handleGetImage = () => {
+    const imageEndpoint = `${API_URL}/images/${post?._id}`;
+    axios
+      .get(imageEndpoint, { responseType: "blob" })
+      .then((response) => {
+        setImageUrl(URL.createObjectURL(new Blob([response.data])));
+      })
+      .catch((error) => console.error(error));
+  };
+
 
   const loadPost = () => {
     const postEndpoint = `${API_URL}/posts/${id}`;
@@ -115,11 +131,14 @@ const PostDetails: React.FC<PostDetailsProps> = ({ accessToken }) => {
   return (
     <>
       {post && (
-        <div className="container">
+        <div className=" col-md-6 mx-auto" style={{marginTop: "10px"}}>
           <div className="card text-right" dir="rtl">
             <div className="card-header">
               <h5> {ownerName} </h5>
             </div>
+            <div className="card-body">
+            <img src={imageUrl} alt="profile" />
+          </div>
             <div className="card-body">
               <h2 className="card-title"> {post.title} </h2>
               <p className="card-text"> {post.content} </p>

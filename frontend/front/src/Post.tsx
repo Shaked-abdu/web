@@ -32,8 +32,8 @@ const Post: React.FC<IProps> = ({
   const [show, setShow] = useState(false);
   const [comment, setComment] = useState("");
   const [editing, setEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState("");
-  const [editContent, setEditContent] = useState("");
+  const [editTitle, setEditTitle] = useState(post.title);
+  const [editContent, setEditContent] = useState(post.content);
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const navigate = useNavigate();
@@ -167,8 +167,6 @@ const Post: React.FC<IProps> = ({
       .then(() => {
         onEdit(post._id as string, editTitle, editContent);
         handleCloseEdit();
-        setEditTitle("");
-        setEditContent("");
       })
       .catch((error) => {
         console.log(error);
@@ -177,7 +175,7 @@ const Post: React.FC<IProps> = ({
 
   return (
     <>
-      <div className="card" style={{ background: "#71bcf3cc" }} >
+      <div className="card" style={{ background: "#E4F2FF", marginTop:"20px" }} >
         <div onClick={handlePostClick}>
           <div className="card-header">
             <h2> {ownerName} </h2>
@@ -196,13 +194,12 @@ const Post: React.FC<IProps> = ({
           <div>
             <p> {comments} תגובות </p>
           </div>
-          <div dir="ltr">
+          <div dir="ltr" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <button className="btn btn-primary" onClick={handleShow}>
               הגב
             </button>
-          </div>
-          {post.owner === logedInUserId && (
-            <div dir="ltr">
+            {post.owner === logedInUserId && (
+            <div dir="rtl">
               <button className="btn btn-danger" onClick={handleDelete}>
                 מחק
               </button>
@@ -215,11 +212,12 @@ const Post: React.FC<IProps> = ({
               </button>
             </div>
           )}
+          </div>
         </div>
-        <Modal show={show} onHide={handleCloseComment}>
-          <Modal.Header closeButton>
-            <div dir="rtl">
-              <Modal.Title>תגובה חדשה</Modal.Title>
+        <Modal show={show} onHide={handleCloseComment} dir="rtl">
+          <Modal.Header>
+            <div >
+              <Modal.Title >תגובה חדשה</Modal.Title>
             </div>
           </Modal.Header>
           <Modal.Body>
@@ -239,9 +237,9 @@ const Post: React.FC<IProps> = ({
             </Button>
           </Modal.Footer>
         </Modal>
-        <Modal show={editing} onHide={handleCloseEdit}>
-          <Modal.Header closeButton>
-            <div dir="rtl">
+        <Modal show={editing} onHide={handleCloseEdit}  dir="rtl">
+          <Modal.Header>
+            <div >
               <Modal.Title>עריכת פוסט</Modal.Title>
             </div>
           </Modal.Header>
@@ -254,7 +252,7 @@ const Post: React.FC<IProps> = ({
             />
             <Form.Control
               as="textarea"
-              rows={3}
+              rows={10}
               value={editContent}
               onChange={handleEditContentChange}
             />

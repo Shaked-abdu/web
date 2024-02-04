@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import account from "./assets/account.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 interface RegisterFormProps {
   onSubmit: (formData: RegistrationFormData, image: File) => void;
@@ -27,6 +30,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
     id: "",
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imgSrc, setImgSrc] = useState<string>("");
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,12 +50,37 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedFile(e.target.files[0]);
+      setImgSrc(URL.createObjectURL(e.target.files[0]));
     }
   };
 
+  const selectImg = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
-    <form className="mt-3" style={{ background: "#71bcf3cc" }}>
+    <form className="vstack gap-3 col-md-7 mx-auto">
+      <h1 className="text-center">הרשמה</h1>
+      <div className="d-flex justify-content-center position-relative">
+        <img
+          src={imgSrc ? imgSrc : account}
+          style={{ height: "200px", width: "200px" }}
+          className="img-fluid"
+        />
+      </div>
+
+      <div className="col-md-6 mx-auto" dir="rtl">
+        <input
+          ref={fileInputRef}
+          type="file"
+          style={{ direction: "rtl", display: "none"}}
+          onChange={handleFileChange}
+        />
+        <button type="button" className="btn" onClick={selectImg}>
+          <FontAwesomeIcon icon={faImage} className="fa-xl" />
+        </button>
+      </div>
+
       <div className="col-md-6 mx-auto" dir="rtl">
         <label htmlFor="email" className="form-label">
           מייל
@@ -154,9 +185,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           required
         />
       </div>
-      <div>
-        <input type="file" style={{ direction: "rtl" }} onChange={handleFileChange} />
-      </div>
+
       <div className="col-md-6 mx-auto">
         <button
           type="submit"

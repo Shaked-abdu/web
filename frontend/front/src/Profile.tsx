@@ -71,8 +71,8 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
       .catch((error) => console.error(error));
   };
   return (
-    <div dir="rtl" className="container mt-5">
-      <div className="card" style={{ width: "80%", margin: "0 auto", background: "#71bcf3cc" }}>
+    <div dir="rtl" className="vstack gap-3 col-md-7 mx-auto" style={{marginTop: "10px"}}>
+      <div className="card" style={{ width: "80%", margin: "0 auto", background: "#E4F2FF" }}>
         <div className="card-header">
           <h1>פרופיל</h1>
         </div>
@@ -80,12 +80,13 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           <img src={imageUrl} alt="profile" />
         </div>
         <div className="card-body">
-          {<p className="card-text">מייל: {user?.email}</p>}
+        {<b className="card-text">מייל</b>}
+        {<p className="card-text">{user?.email}</p>}
         </div>
         <div className="card-body">
+        <b className="card-text">שם פרטי</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p className="card-text">שם פרטי</p>
               <div
                 style={{ display: "flex", alignItems: "center", width: "50%" }}
               >
@@ -99,13 +100,13 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
               </div>
             </div>
           ) : (
-            <p className="card-text">שם פרטי: {user?.firstName}</p>
+            <p className="card-text">{user?.firstName}</p>
           )}
         </div>
         <div className="card-body">
+        <b className="card-text">שם משפחה</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p className="card-text">שם משפחה</p>
               <div
                 style={{ display: "flex", alignItems: "center", width: "50%" }}
               >
@@ -119,13 +120,13 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
               </div>
             </div>
           ) : (
-            <p className="card-text">שם משפחה: {user?.lastName}</p>
+            <p className="card-text">{user?.lastName}</p>
           )}
         </div>
         <div className="card-body">
+        <h1 className="card-text">גיל</h1>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <h1 className="card-text">גיל</h1>
               <div
                 style={{ display: "flex", alignItems: "center", width: "50%" }}
               >
@@ -139,13 +140,13 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
               </div>
             </div>
           ) : (
-            <p className="card-text">גיל: {user?.age}</p>
+            <p className="card-text">{user?.age}</p>
           )}
         </div>
         <div className="card-body">
+        <b className="card-text">מקצוע</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p className="card-text">מקצוע</p>
               <div
                 style={{ display: "flex", alignItems: "center", width: "50%" }}
               >
@@ -159,13 +160,13 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
               </div>
             </div>
           ) : (
-            <p className="card-text">מקצוע: {user?.profession}</p>
+            <p className="card-text">{user?.profession}</p>
           )}
         </div>
         <div className="card-body">
+        <b className="card-text">מספר טלפון</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p className="card-text">מספר טלפון</p>
               <div
                 style={{ display: "flex", alignItems: "center", width: "50%" }}
               >
@@ -179,13 +180,13 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
               </div>
             </div>
           ) : (
-            <p className="card-text">מספר טלפון: {user?.phoneNumber}</p>
+            <p className="card-text">{user?.phoneNumber}</p>
           )}
         </div>
         <div className="card-body">
+        <b className="card-text">תעודת זהות</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p className="card-text">תעודת זהות</p>
               <div
                 style={{ display: "flex", alignItems: "center", width: "50%" }}
               >
@@ -199,7 +200,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
               </div>
             </div>
           ) : (
-            <p className="card-text">תעודת זהות: {user?.id}</p>
+            <p className="card-text">{user?.id}</p>
           )}
         </div>
         <div className="card-body" dir="ltr">

@@ -1,6 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 interface TopNavbarProps {
@@ -22,29 +20,42 @@ const TopNavbar: React.FC<TopNavbarProps> = ({
     navigate("/extra");
   };
   return (
-  <nav className="navbar navbar-dark bg-primary">
-    <div style={{ height: "40px" }}>
-      <p className="navbar-text">Hospital Help</p>
-    </div>
-    
-  <div style={{ height: "40px" }}>
+    <nav
+      className="navbar navbar-dark"
+      style={{ backgroundColor: "rgb(126,205,216)" }}
+    >
+      <div style={{ height: "40px", marginLeft: "10px" }}>
         {isLoggedIn && (
-          <button type="submit" className="btn btn-light" onClick={onLogout}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={onLogout}
+            style={{ marginRight: "10px" }}
+          >
             התנתקות
           </button>
         )}
       </div>
+
       <div style={{ height: "40px" }}>
         {isLoggedIn && (
-          <button type="submit" className="btn btn-light" onClick={onExtra}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={onExtra}
+            style={{ marginRight: "10px" }}
+          >
             נתונים נוספים
           </button>
         )}
-      </div>
-      <div style={{ height: "40px" }}>
-        {isLoggedIn && !isGoolge &&(
-          <button type="submit" className="btn btn-light" onClick={onProfile}>
-            <FontAwesomeIcon icon={faUser} />
+        {isLoggedIn && !isGoolge && (
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={onProfile}
+            style={{ marginRight: "10px" }}
+          >
+            פרופיל
           </button>
         )}
       </div>
