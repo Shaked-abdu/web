@@ -14,6 +14,8 @@ import PostDetails from "./PostDetails";
 import Extra from "./Extra";
 import { RegistrationFormData } from "./Register";
 import Google from "./Google";
+import { Modal, Button } from 'react-bootstrap';
+
 
 const App = () => {
   const navigate = useNavigate();
@@ -30,6 +32,8 @@ const App = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const [email, setEmail] = useState<string>("");
   const [isGoogle, setIsGoogle] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState(false);
+
 
   useEffect(() => {
     if (email) {
@@ -141,6 +145,7 @@ const App = () => {
       })
       .catch((error) => {
         console.log(error);
+        setShowPopup(true);
       });
   };
 
@@ -190,6 +195,9 @@ const App = () => {
     setIsGoogle(true);
     navigate("/posts");
   };
+
+  const handleClose = () => setShowPopup(false);
+
 
   return (
     <>
@@ -246,6 +254,19 @@ const App = () => {
         />
         <Route path="Extra" element={<Extra />} />
       </Routes>
+      <Modal show={showPopup} onHide={handleClose} dir="rtl">
+        <Modal.Header>
+          <Modal.Title>התחברות נכשלה</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          שם משתמש או סיסמה שגויים
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            סגור
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
