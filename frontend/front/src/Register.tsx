@@ -73,7 +73,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         <input
           ref={fileInputRef}
           type="file"
-          style={{ direction: "rtl", display: "none"}}
+          style={{ direction: "rtl", display: "none" }}
           onChange={handleFileChange}
         />
         <button type="button" className="btn" onClick={selectImg}>

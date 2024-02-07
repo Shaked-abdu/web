@@ -71,8 +71,15 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
       .catch((error) => console.error(error));
   };
   return (
-    <div dir="rtl" className="vstack gap-3 col-md-7 mx-auto" style={{marginTop: "10px"}}>
-      <div className="card" style={{ width: "80%", margin: "0 auto", background: "#E4F2FF" }}>
+    <div
+      dir="rtl"
+      className="vstack gap-3 col-md-7 mx-auto"
+      style={{ marginTop: "10px" }}
+    >
+      <div
+        className="card"
+        style={{ width: "80%", margin: "0 auto", background: "#E4F2FF" }}
+      >
         <div className="card-header">
           <h1>פרופיל</h1>
         </div>
@@ -80,11 +87,11 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           <img src={imageUrl} alt="profile" />
         </div>
         <div className="card-body">
-        {<b className="card-text">מייל</b>}
-        {<p className="card-text">{user?.email}</p>}
+          {<b className="card-text">מייל</b>}
+          {<p className="card-text">{user?.email}</p>}
         </div>
         <div className="card-body">
-        <b className="card-text">שם פרטי</b>
+          <b className="card-text">שם פרטי</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
@@ -104,7 +111,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           )}
         </div>
         <div className="card-body">
-        <b className="card-text">שם משפחה</b>
+          <b className="card-text">שם משפחה</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
@@ -124,7 +131,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           )}
         </div>
         <div className="card-body">
-        <h1 className="card-text">גיל</h1>
+          <h1 className="card-text">גיל</h1>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
@@ -144,7 +151,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           )}
         </div>
         <div className="card-body">
-        <b className="card-text">מקצוע</b>
+          <b className="card-text">מקצוע</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
@@ -164,7 +171,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           )}
         </div>
         <div className="card-body">
-        <b className="card-text">מספר טלפון</b>
+          <b className="card-text">מספר טלפון</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
@@ -184,7 +191,7 @@ const Profile: React.FC<IProps> = ({ user, accessToken, reloadUser }) => {
           )}
         </div>
         <div className="card-body">
-        <b className="card-text">תעודת זהות</b>
+          <b className="card-text">תעודת זהות</b>
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div

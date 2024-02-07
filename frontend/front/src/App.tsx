@@ -14,8 +14,7 @@ import PostDetails from "./PostDetails";
 import Extra from "./Extra";
 import { RegistrationFormData } from "./Register";
 import Google from "./Google";
-import { Modal, Button } from 'react-bootstrap';
-
+import { Modal, Button } from "react-bootstrap";
 
 const App = () => {
   const navigate = useNavigate();
@@ -33,7 +32,6 @@ const App = () => {
   const [email, setEmail] = useState<string>("");
   const [isGoogle, setIsGoogle] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
-
 
   useEffect(() => {
     if (email) {
@@ -198,7 +196,6 @@ const App = () => {
 
   const handleClose = () => setShowPopup(false);
 
-
   return (
     <>
       <TopNavbar
@@ -258,9 +255,7 @@ const App = () => {
         <Modal.Header>
           <Modal.Title>התחברות נכשלה</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          שם משתמש או סיסמה שגויים
-        </Modal.Body>
+        <Modal.Body>שם משתמש או סיסמה שגויים</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             סגור
