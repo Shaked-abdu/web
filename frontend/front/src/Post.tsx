@@ -175,13 +175,13 @@ const Post: React.FC<IProps> = ({
 
   return (
     <>
-      <div className="card" style={{ background: "#E4F2FF", marginTop:"20px" }} >
+      <div className="card" style={{ background: "#E4F2FF", marginTop:"20px", marginBottom: "20px" }} >
         <div onClick={handlePostClick}>
           <div className="card-header">
             <h2> {ownerName} </h2>
           </div>
           <div className="card-body">
-            <img src={imageUrl} alt="profile" />
+            <img src={imageUrl} alt="profile" style={{height: "400px", width: "700px"}}/>
           </div>
           <div className="card-body">
             <h3> {post.title} </h3>

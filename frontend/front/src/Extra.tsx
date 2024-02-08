@@ -40,7 +40,7 @@ const Extra: React.FC = () => {
   };
 
   return (
-    <div dir="rtl" className="container">
+    <div dir="rtl">
       <table className="table">
         <thead>
           <tr>
