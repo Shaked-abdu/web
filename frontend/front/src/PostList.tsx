@@ -20,7 +20,11 @@ const PostList: React.FC<PostListProps> = ({
   const [displayedPosts, setDisplayedPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
-    setDisplayedPosts(posts);
+    if(allPosts){
+      setDisplayedPosts(posts);
+    }else{
+      setDisplayedPosts(userPosts);
+    }
   }, [posts]);
 
   const navigate = useNavigate();
