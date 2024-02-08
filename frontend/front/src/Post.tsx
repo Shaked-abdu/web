@@ -16,7 +16,7 @@ interface IProps {
   post: IPost;
   accessToken: string;
   logedInUserId: string;
-  onDelete: (id: string) => void;
+  onDelete: () => void;
   onEdit: (id: string, title: string, content: string) => void;
 }
 
@@ -132,7 +132,7 @@ const Post: React.FC<IProps> = ({
         },
       })
       .then(() => {
-        onDelete(post._id as string);
+        onDelete();
       })
       .catch((error) => {
         console.log(error);

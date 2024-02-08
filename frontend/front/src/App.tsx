@@ -198,6 +198,10 @@ const App = () => {
 
   const handleClose = () => setShowPopup(false);
 
+  const handleDeletePost = () => {
+    fetchPosts();
+    fetchUserPosts();
+  }
 
   return (
     <>
@@ -216,6 +220,7 @@ const App = () => {
               userPosts={userPosts}
               accessToken={accessToken as string}
               logedInUserId={user?._id as string}
+              onDelete={handleDeletePost}
             />
           }
         />
