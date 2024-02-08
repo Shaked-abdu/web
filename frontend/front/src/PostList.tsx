@@ -25,7 +25,7 @@ const PostList: React.FC<PostListProps> = ({
     }else{
       setDisplayedPosts(userPosts);
     }
-  }, [posts]);
+  }, [posts, userPosts, allPosts]);
 
   const navigate = useNavigate();
 
