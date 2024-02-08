@@ -87,9 +87,11 @@ const PostList: React.FC<PostListProps> = ({
               כל הפוסטים
             </button>
           )}
-          <button onClick={handleAddPost} className="btn btn-primary">
-            פוסט חדש
-          </button>
+          {allPosts && (
+            <button onClick={handleAddPost} className="btn btn-primary">
+              פוסט חדש
+            </button>
+          )}
         </div>
       </div>
     </>
